@@ -1,0 +1,78 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# Guidelines for Code
+
+## Project Overview
+
+We are building a view-only dashboard for end customers.
+
+## Project Architecture
+
+- We use biome for code formatting. Adhere to biome.json file when writing code. Make only the specific changes user request using edit_file or search_replace.
+
+### Key Files and Folders
+
+- src/ contains the frontend code.
+- server/ contains the backend code.
+- manifests/ contains the manifest files for the project (deployment configuration, avoid using this)
+- vite.config.ts contains the Vite configuration for the frontend.
+- tsconfig.json contains the TypeScript configuration for the project.
+
+## Commands
+
+- Run Typescript compiler to check for errors: `npm run build-test`
+- Format: Biome is configured, to run the formatter use `npm run check:fix`
+- To run tests, do something like `npm test src/components/template/splitPage.test.ts -- --run`, if you don't pass `-- --run` the tests will hang.
+
+## Code Style Guidelines
+
+- Never conditionally import anything. Just top level imports. Do type imports if appropriate.
+- Do not add any comments to the code.
+- Do not do anything that the user didn't ask for.
+- Never do .forEach, always use for-of.
+- Use explicit types for function parameters and return values. Define interfaces for complex objects
+- Use camelCase for variables/functions, PascalCase for types/interfaces
+- Use try/catch blocks with proper error logging (console.error with chalk, include red stack trace)
+- Use const by default, let when necessary
+- When implementing features, ensure proper error handling and maintain the existing documentation patterns.
+
+# Frontend And UI
+
+- Do not create a special dark mode case, everything is light-mode, and that's the only option for this app.
+- Use scss, and never tailwind.
+- All interactive elements should have proper focus states.
+
+### TypeScript
+
+- Use TypeScript's strict mode with proper type annotations
+- Use type instead of interface
+- Prefer function keyword over const fn = async() =>
+- Do not use default exports, always use named exports.
+- Prefer type declarations to interface, especially for props
+- Use for ... of instead of forEach
+
+### React Rules
+
+- Do not import React from "react", just import the types one by one, that are necessary
+- Follow React functional component patterns with hooks
+- Avoid unnecessary re-renders with useMemo/useCallback
+- type ComponentProps should be just on top of the function declaring the component.
+- Components should take AS FEW PROPS as possible, if you can reduce the number of props, you should always do so.
+- Use ErrorBoundary and FullPageError components for error handling in the UI.
+- Prefer controlled components over uncontrolled ones.
+- Keep components focused on a single responsibility.
+
+# Agent Guidelines
+
+- Do not use economic tools such as grep, sed, awk, cat, etc. Try to read the full file when you need to see its details.
+- Do not examine file content with cat, use read tool instead.
+- Avoid implementing any features that are not asked for, we want surgical changes.
+- Do not run the project when you are done.
+- After any big change, run the linter: `npm run check:fix`. Try to fix linter errors. 
+- After any big change, try to build the project. Try to fix build errors.
+- When working with data display components, ensure they handle loading states and empty states gracefully.
+- For dashboard components, prioritize performance - use virtualization for large datasets and lazy loading where appropriate.

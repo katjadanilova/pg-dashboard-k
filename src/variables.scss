@@ -1,0 +1,150 @@
+@charset "utf-8";
+@use "sass:color";
+
+$family-sans-serif: sans-serif;
+
+$body-background-color: #fafafa;
+$upwire-blue-1: #3a5cb6;
+$upwire-blue-2: rgb(45, 156, 219);
+$upwire-blue-3: #56ccf2;
+$upwire-blue-4: #c0e3ff;
+
+$upwire-blue-alt-1: #4747b5;
+$upwire-blue-alt-2: #536dff;
+$upwire-blue-alt-3: #3a5cb6;
+$upwire-blue-alt-4: #00cec7;
+
+$upwire-green-1: #219653;
+$upwire-green-2: #27ae60;
+$upwire-green-3: #e1fdef;
+
+$upwire-purple-1: #9b51e0;
+$upwire-purple-2: #bb6bd9;
+$upwire-yellow-1: #f2c94c;
+$upwire-yellow-2: #fec009;
+$upwire-orange-1: #ff9700;
+$upwire-pink-1: #fc5768;
+$upwire-red-1: #eb5757;
+$upwire-red-2: #d32f2f;
+
+$blue: $upwire-blue-2;
+$blue-light-background: #274b65;
+$dark-blue: $upwire-blue-alt-3;
+$dark-blue-darker: $upwire-blue-alt-1;
+$dark-blue-even-darker: #294870;
+$dark-blue-lighter: #5365ba;
+$dark-blue-even-lighter: #6978c3;
+$red: #f23611;
+$green: #46b748;
+$green-light-background: #e9faeb;
+$green-primary: #03d5c4;
+$purple: #663fb4;
+$purple-light-background: #f1effc;
+$pink: #ff4181;
+$pink-light-background: #fdf5f9;
+$yellow: #fec900;
+$yellow-light: #fedf66;
+$yellow-light-background: #fffded;
+$grey: #f6f6f6;
+$grey-light: #d9d9d9;
+$grey-dark: #3f3f3f;
+$grey-dark2: #afafaf;
+
+$cs1: #fec009;
+$cs2: #536dff;
+$cs3: #d32f2f;
+$cs4: #212121;
+$cs5: #4caf50;
+$cs6: #d9d7da;
+$cs7: #9b9b9b;
+$cs8: #fafafa;
+$cs9: #e8e8e8;
+$cs10: #f9cdd2;
+$cs11: #3f51b5;
+$cs12: #417505;
+$cs13: #9b2222;
+$cs14: #444;
+$cs15: #fc5768;
+$cs16: #2b98f0;
+$cs17: #ff9900;
+$cs18: #f2f2f2;
+$cs19: #5b75fb;
+
+$link: $dark-blue;
+$primary: $blue;
+$alt-blue: $dark-blue-lighter;
+
+$tile-inner-border-alt1: #efefef;
+$tile-bg-alt1: #fbfbfb;
+$tile-bg-alt2: #f8f8f8;
+$tile-bg-alt3: #f7f7f7;
+$tile-bg-alt4: #fafafa;
+$tile-bg-alt5: #fdfdfd;
+
+$grid-line-color: rgb(238, 238, 238);
+
+$taskbar-background-color: $upwire-blue-alt-1;
+
+$playground-canvas-filter-line-color: $yellow;
+$playground-canvas-filter-connect-color: $green;
+$playground-canvas-filter-disabled-color: $grey;
+
+$text-base: #515151;
+$text-hint-color: #898989;
+
+$dark-background: #1e1e1e;
+$grey-background: #2d2f2a;
+$primary-light: rgba(45, 156, 219, 0.3);
+$primary-dark: rgb(0, 110, 170);
+
+:root {
+  --primary-color: #{$upwire-blue-2};
+  --primary-light: #{$primary-light};
+  --primary-dark: #{$primary-dark};
+  --secondary-color: #{$grey};
+  --success-color: #{$upwire-green-1};
+  --warning-color: #{$upwire-orange-1};
+  --danger-color: #{$upwire-red-1};
+
+  --gray-dark: #000000;
+  --gray-darker-gray: #777777;
+  --gray-dark-gray: #999999;
+  --gray-gray: #dddddd;
+  --gray-light-gray: #efefef;
+  --gray-lighter-gray: #f5f5f5;
+  --gray-light: #ffffff;
+
+  --primary-upwire-blue-alt-4: #00cec7;
+  --primary-light: #56ccf2;
+  --primary-dark: #3a5cb6;
+  --primary-upwire-blue-alt-3: #3a5cb6;
+  --primary-dark-blue: #4054b2;
+  --primary-upwire-blue-alt-1: #4747b5;
+  --primary-upwire: #2d9cdb;
+  --primary-blue: #2b98f0;
+  --primary-alt-blue: #536cff;
+  --primary-upwire-blue-alt-2: #536dff;
+  --primary-upwire-purple-2-light: #f8f0fb;
+  --primary-upwire-purple-1: #9b51e0;
+  --primary-upwire-purple-2: #bb6bd9;
+  --primary-purple: #663fb4;
+
+  --good-upwire-green-1: #219653;
+  --good-green: #46b748;
+  --good-upwire-green-2: #27ae60;
+  --good-upwire-green-3: #6fcf97;
+  --good-upwire-green-2-light: #e9f7ef;
+
+  --warning-dark: #ff9700;
+  --warning-yellow: #fec900;
+  --warning-main: #fec009;
+  --warning-upwire-yellow-1: #f2c94c;
+  --warning-light: #fedf66;
+  --warning-upwire-yellow-2-light: #fff9e6;
+
+  --bad-main: #d32f2f;
+  --bad-red: #f23611;
+  --bad-light: #ff4181;
+  --bad-dark: #eb5757;
+  --bad-upwire-pink-1: #fc5768;
+}
