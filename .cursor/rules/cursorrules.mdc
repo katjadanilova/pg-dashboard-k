@@ -34,7 +34,7 @@ We are building a view-only dashboard for end customers.
 ## Code Style Guidelines
 
 - Never conditionally import anything. Just top level imports. Do type imports if appropriate.
-- Do not add any comments to the code.
+- Do not add any comments to the code. Do not remove TODO comments.
 - Do not do anything that the user didn't ask for.
 - Never do .forEach, always use for-of.
 - Use explicit types for function parameters and return values. Define interfaces for complex objects

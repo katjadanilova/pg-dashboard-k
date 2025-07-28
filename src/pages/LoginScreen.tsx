@@ -2,7 +2,6 @@ import {AccountCircle, Key} from "@mui/icons-material";
 import {Button, FormControl, FormLabel, Input} from "@mui/joy";
 import {useTheme} from "@mui/joy/styles";
 import {type KeyboardEvent, useEffect, useRef, useState} from "react";
-import upwireLogo from "../assets/upwire-logo.png";
 import {FullPageError} from "../components/FullPageError";
 import {useAuthContext} from "../contexts/AuthContext";
 
@@ -38,10 +37,6 @@ export function LoginScreen() {
 
     return (
         <div className="login-screen">
-            <div className="login-header">
-                <img src={upwireLogo} alt="Upwire Logo" />
-            </div>
-
             <div className="login-content">
                 <div className="login">
                     <h1>Playground Dashboard Login</h1>
@@ -78,14 +73,7 @@ export function LoginScreen() {
                         />
                     </FormControl>
 
-                    <Button
-                        loading={working}
-                        type="submit"
-                        fullWidth
-                        onClick={submit}
-                        onKeyDown={handleKeyDown}
-                        disabled={!username || !password}
-                    >
+                    <Button loading={working} type="submit" fullWidth onClick={submit} onKeyDown={handleKeyDown} disabled={!username || !password}>
                         Sign In
                     </Button>
                 </div>

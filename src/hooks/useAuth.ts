@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 
 interface AuthState {
     signIn: (username: string, password: string) => Promise<void>;
+    logout: () => void;
     error: Error | null;
     working: boolean;
     needsAuthentication: boolean;
@@ -42,8 +43,15 @@ export function useAuth(): AuthState {
         }
     };
 
+    const logout = (): void => {
+        setNeedsAuthentication(true);
+        setError(null);
+        setWorking(false);
+    };
+
     return {
         signIn,
+        logout,
         error,
         working,
         needsAuthentication,
