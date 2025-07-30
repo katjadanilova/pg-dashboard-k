@@ -1,8 +1,8 @@
-import {DateRangePicker} from "../../components/DateRangePicker";
-import {usePlaygroundContext} from "../../contexts/PlaygroundContext";
+import { useParams } from "react-router-dom";
+import { DateRangePicker } from "../../components/DateRangePicker";
 
 export function FlowsPage() {
-    const {playgroundState} = usePlaygroundContext();
+    const { playgroundName } = useParams<{ playgroundName: string }>();
 
     return (
         <div className="page">
@@ -14,11 +14,11 @@ export function FlowsPage() {
             </div>
 
             <div className="page-content">
-                {playgroundState.currentPlayground && (
+                {playgroundName && (
                     <div>
-                        <h2>Playground: {playgroundState.currentPlayground}</h2>
+                        <h2>Playground: {playgroundName}</h2>
                         <div className="flows-content">
-                            <p>Flow management for {playgroundState.currentPlayground}</p>
+                            <p>Flow management for {playgroundName}</p>
                             <div className="flows-list">
                                 <div className="flow-item">
                                     <h3>Flow Management</h3>

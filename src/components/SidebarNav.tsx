@@ -1,13 +1,13 @@
-import {Dashboard as DashboardIcon, Description as DescriptionIcon, Loop as LoopIcon} from "@mui/icons-material";
+import { Dashboard as DashboardIcon, Description as DescriptionIcon, Loop as LoopIcon } from "@mui/icons-material";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RouteIcon from "@mui/icons-material/Route";
-import {type ReactElement, useState} from "react";
+import { type ReactElement, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../global.scss";
 
 type SidebarNavProps = {
     className?: string;
-    onNavigate?: (playgroundName: string, optionName: string) => void;
 };
 
 type PlaygroundItem = {
@@ -28,7 +28,7 @@ type NavButtonProps = {
     onClick: () => void;
 };
 
-function NavButton({icon, label, isActive = false, hasArrow = false, isExpanded = false, onClick}: NavButtonProps) {
+function NavButton({ icon, label, isActive = false, hasArrow = false, isExpanded = false, onClick }: NavButtonProps) {
     return (
         <button className={`nav-item-content ${isActive ? "active" : ""}`} onClick={onClick} type="button">
             {icon}
@@ -43,20 +43,27 @@ function NavButton({icon, label, isActive = false, hasArrow = false, isExpanded 
 }
 
 const DROPDOWN_OPTIONS: DropdownOption[] = [
-    {name: "Dashboard", icon: <DashboardIcon />},
-    {name: "Flows", icon: <LoopIcon />},
-    {name: "All Records", icon: <DescriptionIcon />},
+    { name: "Dashboard", icon: <DashboardIcon /> },
+    { name: "Flows", icon: <LoopIcon /> },
+    { name: "All Records", icon: <DescriptionIcon /> },
 ];
 
-export function SidebarNav({className, onNavigate}: SidebarNavProps) {
+export function SidebarNav({ className }: SidebarNavProps) {
     //TODO: Replace with API data
-    const [playgrounds] = useState<PlaygroundItem[]>([{name: "Basic Test"}, {name: "Spintest"}, {name: "playq"}, {name: "Spring Bat..."}]);
+    const [playgrounds] = useState<PlaygroundItem[]>([{ name: "Basic Test" }, { name: "Spintest" }, { name: "playq" }, { name: "Spring Bat..." }]);
 
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["playgrounds"]));
-    const [activeMenuItem, setActiveMenuItem] = useState<{
-        playground: string;
-        option: string;
-    } | null>(null);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Auto-expand playground sections based on current URL
+    useEffect(() => {
+        const pathMatch = location.pathname.match(/^\/playground\/([^/]+)/);
+        if (pathMatch) {
+            const playgroundName = decodeURIComponent(pathMatch[1]);
+            setExpandedSections((prev) => new Set([...prev, "playgrounds", playgroundName]));
+        }
+    }, [location.pathname]);
 
     function toggleSection(sectionId: string) {
         setExpandedSections((prev) => {
@@ -71,21 +78,33 @@ export function SidebarNav({className, onNavigate}: SidebarNavProps) {
     }
 
     function handlePlaygroundsClick() {
-        setActiveMenuItem(null);
-        onNavigate?.("", "");
+        navigate("/playgrounds");
     }
 
     function handleMenuOptionClick(playgroundName: string, optionName: string) {
-        setActiveMenuItem({playground: playgroundName, option: optionName});
-        onNavigate?.(playgroundName, optionName);
+        const routeMap: Record<string, string> = {
+            Dashboard: "dashboard",
+            Flows: "flows",
+            "All Records": "all-records",
+        };
+        const route = routeMap[optionName];
+        if (route) {
+            navigate(`/playground/${encodeURIComponent(playgroundName)}/${route}`);
+        }
     }
 
     function isMenuActive(playgroundName: string, optionName: string) {
-        return activeMenuItem?.playground === playgroundName && activeMenuItem?.option === optionName;
+        const routeMap: Record<string, string> = {
+            Dashboard: "dashboard",
+            Flows: "flows",
+            "All Records": "all-records",
+        };
+        const route = routeMap[optionName];
+        return location.pathname === `/playground/${encodeURIComponent(playgroundName)}/${route}`;
     }
 
     function isMainPlaygroundsActive() {
-        return activeMenuItem === null;
+        return location.pathname === "/playgrounds";
     }
 
     function renderSubItem(playground: PlaygroundItem) {

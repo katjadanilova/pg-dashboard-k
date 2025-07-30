@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import {DateRangePicker} from "../../components/DateRangePicker";
-import {RecordsTable} from "../../components/dashboard/RecordsTable";
-import {usePlaygroundContext} from "../../contexts/PlaygroundContext";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { DateRangePicker } from "../../components/DateRangePicker";
+import { RecordsTable } from "../../components/dashboard/RecordsTable";
 
 const getColumnRenderer = (fieldName: string) => {
     switch (fieldName.toLowerCase()) {
@@ -16,14 +16,14 @@ const getColumnRenderer = (fieldName: string) => {
 const generateBatchOptions = (data: Record<string, any>[]) => {
     const batchField = Object.keys(data[0] || {}).find((key) => key.toLowerCase().includes("batch") || key.toLowerCase().includes("batchno"));
 
-    if (!batchField) return [{value: "All", label: "All"}];
+    if (!batchField) return [{ value: "All", label: "All" }];
 
     const uniqueBatches = [...new Set(data.map((item) => item[batchField]).filter(Boolean))];
-    return [{value: "All", label: "All"}, ...uniqueBatches.map((batch) => ({value: batch.toString(), label: batch.toString()}))];
+    return [{ value: "All", label: "All" }, ...uniqueBatches.map((batch) => ({ value: batch.toString(), label: batch.toString() }))];
 };
 
 export function AllRecordsPage() {
-    const {playgroundState} = usePlaygroundContext();
+    const { playgroundName } = useParams<{ playgroundName: string }>();
     const [data, setData] = useState<Record<string, any>[]>([]);
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState<any[]>([]);
@@ -173,10 +173,10 @@ export function AllRecordsPage() {
                         label: "Status",
                         type: "dropdown",
                         options: [
-                            {value: "All", label: "All"},
-                            {value: "active", label: "Active"},
-                            {value: "failed", label: "Failed"},
-                            {value: "finished", label: "Finished"},
+                            { value: "All", label: "All" },
+                            { value: "active", label: "Active" },
+                            { value: "failed", label: "Failed" },
+                            { value: "finished", label: "Finished" },
                         ],
                         defaultValue: "All",
                     },
@@ -206,7 +206,7 @@ export function AllRecordsPage() {
     return (
         <div className="page">
             <div className="page-subheader">
-                <h1>All Records / {playgroundState.currentPlayground}</h1>
+                <h1>All Records / {playgroundName}</h1>
                 <div className="date-range-section">
                     <DateRangePicker />
                 </div>

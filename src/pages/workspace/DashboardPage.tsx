@@ -1,9 +1,9 @@
-import {CheckCircle, DirectionsRun, Error as ErrorIcon, PlayArrow} from "@mui/icons-material";
-import {useState} from "react";
-import {DateRangePicker} from "../../components/DateRangePicker";
-import {BreakdownCard, Card} from "../../components/dashboard/Card";
-import {usePlaygroundContext} from "../../contexts/PlaygroundContext";
-import {formatNumber} from "../../utils";
+import { CheckCircle, DirectionsRun, Error as ErrorIcon, PlayArrow } from "@mui/icons-material";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { DateRangePicker } from "../../components/DateRangePicker";
+import { BreakdownCard, Card } from "../../components/dashboard/Card";
+import { formatNumber } from "../../utils";
 
 type TriggerCard = "started" | "finished" | "failed" | "running" | null;
 
@@ -22,12 +22,12 @@ function StatsCards() {
     }
 
     const breakdownData = [
-        {title: "Default Notice", count: formatNumber("123400")},
-        {title: "DLR", count: formatNumber("89000")},
-        {title: "Mail Handler", count: formatNumber("156000")},
-        {title: "Mail", count: formatNumber("89000")},
-        {title: "Broken", count: formatNumber("45000")},
-        {title: "New", count: formatNumber("30000")},
+        { title: "Default Notice", count: formatNumber("123400") },
+        { title: "DLR", count: formatNumber("89000") },
+        { title: "Mail Handler", count: formatNumber("156000") },
+        { title: "Mail", count: formatNumber("89000") },
+        { title: "Broken", count: formatNumber("45000") },
+        { title: "New", count: formatNumber("30000") },
     ];
 
     return (
@@ -72,12 +72,12 @@ function StatsCards() {
 }
 
 export function DashboardPage() {
-    const {playgroundState} = usePlaygroundContext();
+    const { playgroundName } = useParams<{ playgroundName: string }>();
 
     return (
         <div className="page">
             <div className="page-subheader">
-                <h1>Dashboard / {playgroundState.currentPlayground}</h1>
+                <h1>Dashboard / {playgroundName}</h1>
                 <div className="date-range-section">
                     <DateRangePicker />
                 </div>

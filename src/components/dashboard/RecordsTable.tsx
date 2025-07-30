@@ -1,9 +1,9 @@
-import { FilterAlt, Refresh } from "@mui/icons-material";
+import {FilterAlt, Refresh} from "@mui/icons-material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DownloadIcon from "@mui/icons-material/Download";
 import SearchIcon from "@mui/icons-material/Search";
 import ViewColumnIcon from "@mui/icons-material/ViewColumn";
-import { Button, createTheme, FormControl, InputAdornment, InputLabel, MenuItem, Select as MuiSelect, TextField, ThemeProvider, Tooltip } from "@mui/material";
+import {Button, createTheme, FormControl, InputAdornment, InputLabel, MenuItem, Select as MuiSelect, TextField, ThemeProvider, Tooltip} from "@mui/material";
 import {
     ColumnsPanelTrigger,
     DataGrid,
@@ -16,11 +16,11 @@ import {
     Toolbar,
     ToolbarButton,
 } from "@mui/x-data-grid";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs, { type Dayjs } from "dayjs";
-import { useState } from "react";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs, {type Dayjs} from "dayjs";
+import {useState} from "react";
 
 // Material-UI theme specifically for DataGrid to avoid conflicts with Joy UI
 const dataGridTheme = createTheme({
@@ -62,7 +62,7 @@ type FilterConfig = {
     field: string;
     label: string;
     type?: "dropdown" | "date";
-    options?: Array<{ value: string; label: string }>;
+    options?: Array<{value: string; label: string}>;
     defaultValue?: string;
 };
 
@@ -96,21 +96,21 @@ function CustomToolbar() {
                 <QuickFilterTrigger
                     render={(triggerProps, state) => (
                         <Tooltip title="Search" enterDelay={0}>
-                            <ToolbarButton {...triggerProps} color="default" style={{ display: state.expanded ? "none" : "inline-flex" }}>
+                            <ToolbarButton {...triggerProps} color="default" style={{display: state.expanded ? "none" : "inline-flex"}}>
                                 <SearchIcon fontSize="small" />
                             </ToolbarButton>
                         </Tooltip>
                     )}
                 />
                 <QuickFilterControl
-                    render={({ ref, ...controlProps }, state) => (
+                    render={({ref, ...controlProps}, state) => (
                         <TextField
                             {...controlProps}
                             inputRef={ref}
                             aria-label="Search"
                             placeholder="Search..."
                             size="small"
-                            style={{ minWidth: 200, display: state.expanded ? "block" : "none" }}
+                            style={{minWidth: 200, display: state.expanded ? "block" : "none"}}
                             slotProps={{
                                 input: {
                                     startAdornment: (
@@ -284,7 +284,7 @@ export function RecordsTable({
                                 }}
                                 initialState={{
                                     pagination: {
-                                        paginationModel: { page: 0, pageSize },
+                                        paginationModel: {page: 0, pageSize},
                                     },
                                 }}
                                 pageSizeOptions={pageSizeOptions}
