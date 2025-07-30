@@ -13,20 +13,15 @@ export const colorspace = {
     },
 
     primary: {
-        upwireBlueAlt4: getComputedStyle(document.documentElement).getPropertyValue("--primary-upwire-blue-alt-4").trim(),
         light: getComputedStyle(document.documentElement).getPropertyValue("--primary-light").trim(),
         dark: getComputedStyle(document.documentElement).getPropertyValue("--primary-dark").trim(),
-        upwireBlueAlt3: getComputedStyle(document.documentElement).getPropertyValue("--primary-upwire-blue-alt-3").trim(),
-        darkBlue: getComputedStyle(document.documentElement).getPropertyValue("--primary-dark-blue").trim(),
         upwireBlueAlt1: getComputedStyle(document.documentElement).getPropertyValue("--primary-upwire-blue-alt-1").trim(),
         upwire: getComputedStyle(document.documentElement).getPropertyValue("--primary-upwire").trim(),
         blue: getComputedStyle(document.documentElement).getPropertyValue("--primary-blue").trim(),
-        altBlue: getComputedStyle(document.documentElement).getPropertyValue("--primary-alt-blue").trim(),
         upwireBlueAlt2: getComputedStyle(document.documentElement).getPropertyValue("--primary-upwire-blue-alt-2").trim(),
         upwirePurple2Light: getComputedStyle(document.documentElement).getPropertyValue("--primary-upwire-purple-2-light").trim(),
         upwirePurple1: getComputedStyle(document.documentElement).getPropertyValue("--primary-upwire-purple-1").trim(),
         upwirePurple2: getComputedStyle(document.documentElement).getPropertyValue("--primary-upwire-purple-2").trim(),
-        purple: getComputedStyle(document.documentElement).getPropertyValue("--primary-purple").trim(),
     },
 
     good: {
@@ -64,9 +59,9 @@ export const muiJoyUpwireTheme = extendTheme({
                     100: colorspace.primary.light,
                     200: colorspace.primary.light,
                     300: colorspace.primary.light,
-                    400: colorspace.primary.upwire,
-                    500: colorspace.primary.upwire,
-                    600: colorspace.primary.upwire,
+                    400: colorspace.primary.upwireBlueAlt1,
+                    500: colorspace.primary.upwireBlueAlt1,
+                    600: colorspace.primary.upwireBlueAlt1,
                     700: colorspace.primary.dark,
                     800: colorspace.primary.dark,
                     900: colorspace.primary.dark,
