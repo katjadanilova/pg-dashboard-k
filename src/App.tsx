@@ -1,19 +1,19 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Dropdown, ListItemDecorator, Menu, MenuButton, MenuItem, Typography } from "@mui/joy";
-import { useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {Dropdown, ListItemDecorator, Menu, MenuButton, MenuItem, Typography} from "@mui/joy";
+import {useState} from "react";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {APIProvider} from "./api/client";
 import upwireLogo from "./assets/upwire-logo.png";
-import { SidebarNav } from "./components/SidebarNav";
-import { AuthProvider, useAuthContext } from "./contexts/AuthContext";
-import { DateRangeProvider } from "./contexts/DateRangeContext";
-import { PlaygroundProvider } from "./contexts/PlaygroundContext";
+import {SidebarNav} from "./components/SidebarNav";
+import {AuthProvider, useAuthContext} from "./contexts/AuthContext";
+import {UIStateProvider} from "./contexts/UIStateContext";
 import "./global.scss";
-import { AllRecordsPage } from "./pages/workspace/AllRecordsPage";
-import { DashboardPage } from "./pages/workspace/DashboardPage";
-import { FlowsPage } from "./pages/workspace/FlowsPage";
-import { PlaygroundsPage } from "./pages/workspace/PlaygroundsPage";
-import { UpwireJoyThemeProvider } from "./theme";
+import {AllRecordsPage} from "./pages/workspace/AllRecordsPage";
+import {DashboardPage} from "./pages/workspace/DashboardPage";
+import {FlowsPage} from "./pages/workspace/FlowsPage";
+import {PlaygroundsPage} from "./pages/workspace/PlaygroundsPage";
+import {UpwireJoyThemeProvider} from "./theme";
 
 function PageHeader() {
     const [open, setOpen] = useState(false);
@@ -33,8 +33,8 @@ function PageHeader() {
             <img src={upwireLogo} alt="Upwire Logo" />
 
             <Dropdown open={open} onOpenChange={handleOpenChange}>
-                <MenuButton size="sm" variant="solid" color="primary" sx={{ borderRadius: "100%", padding: "5px" }}>
-                    <AccountCircleIcon style={{ width: "30px", height: "30px" }} />
+                <MenuButton size="sm" variant="solid" color="primary" sx={{borderRadius: "100%", padding: "5px"}}>
+                    <AccountCircleIcon style={{width: "30px", height: "30px"}} />
                 </MenuButton>
                 <Menu size="sm" id="user-menu" placement="bottom-end">
                     <MenuItem onClick={handleLogout}>
@@ -87,11 +87,11 @@ function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
-                <PlaygroundProvider>
-                    <DateRangeProvider>
+                <APIProvider>
+                    <UIStateProvider>
                         <AppContent />
-                    </DateRangeProvider>
-                </PlaygroundProvider>
+                    </UIStateProvider>
+                </APIProvider>
             </AuthProvider>
         </BrowserRouter>
     );

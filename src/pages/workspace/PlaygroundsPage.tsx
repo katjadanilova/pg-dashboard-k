@@ -1,5 +1,5 @@
 import {DateRangePicker} from "../../components/DateRangePicker";
-import {usePlaygroundContext} from "../../contexts/PlaygroundContext";
+import {usePlaygroundContext} from "../../contexts/UIStateContext";
 
 export function PlaygroundsPage() {
     const {playgroundState} = usePlaygroundContext();

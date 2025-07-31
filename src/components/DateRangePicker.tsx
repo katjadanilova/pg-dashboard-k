@@ -5,8 +5,8 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs, {type Dayjs} from "dayjs";
 import {useEffect, useRef, useState} from "react";
-import type {DateRange} from "../contexts/DateRangeContext";
-import {useDateRangeContext} from "../contexts/DateRangeContext";
+import type {DateRange} from "../contexts/UIStateContext";
+import {useDateRangeContext} from "../contexts/UIStateContext";
 
 const shortcuts = [
     {label: "This Week", getValue: (): DateRange<Dayjs> => [dayjs().startOf("week"), dayjs().endOf("week")]},

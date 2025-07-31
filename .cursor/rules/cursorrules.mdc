@@ -42,6 +42,7 @@ We are building a view-only dashboard for end customers.
 - Use try/catch blocks with proper error logging (console.error with chalk, include red stack trace)
 - Use const by default, let when necessary
 - When implementing features, ensure proper error handling and maintain the existing documentation patterns.
+- Never add spaces inside curly brackets. Use {import} not { import }, {prop} not { prop }
 
 # Frontend And UI
 

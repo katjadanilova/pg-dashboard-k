@@ -1,17 +1,16 @@
-import { Dashboard as DashboardIcon, Description as DescriptionIcon, Loop as LoopIcon } from "@mui/icons-material";
+import {Dashboard as DashboardIcon, Description as DescriptionIcon, Loop as LoopIcon} from "@mui/icons-material";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RouteIcon from "@mui/icons-material/Route";
-import { type ReactElement, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {type ReactElement, useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {usePlaygroundContext} from "../contexts/UIStateContext";
 import "../global.scss";
+import {useMockPlaygrounds} from "../hooks/useMockData";
+import type {PlaygroundData} from "../types";
 
 type SidebarNavProps = {
     className?: string;
-};
-
-type PlaygroundItem = {
-    name: string;
 };
 
 type DropdownOption = {
@@ -28,7 +27,7 @@ type NavButtonProps = {
     onClick: () => void;
 };
 
-function NavButton({ icon, label, isActive = false, hasArrow = false, isExpanded = false, onClick }: NavButtonProps) {
+function NavButton({icon, label, isActive = false, hasArrow = false, isExpanded = false, onClick}: NavButtonProps) {
     return (
         <button className={`nav-item-content ${isActive ? "active" : ""}`} onClick={onClick} type="button">
             {icon}
@@ -43,27 +42,29 @@ function NavButton({ icon, label, isActive = false, hasArrow = false, isExpanded
 }
 
 const DROPDOWN_OPTIONS: DropdownOption[] = [
-    { name: "Dashboard", icon: <DashboardIcon /> },
-    { name: "Flows", icon: <LoopIcon /> },
-    { name: "All Records", icon: <DescriptionIcon /> },
+    {name: "Dashboard", icon: <DashboardIcon />},
+    {name: "Flows", icon: <LoopIcon />},
+    {name: "All Records", icon: <DescriptionIcon />},
 ];
 
-export function SidebarNav({ className }: SidebarNavProps) {
-    //TODO: Replace with API data
-    const [playgrounds] = useState<PlaygroundItem[]>([{ name: "Basic Test" }, { name: "Spintest" }, { name: "playq" }, { name: "Spring Bat..." }]);
-
+export function SidebarNav({className}: SidebarNavProps) {
+    const {data: playgrounds = [], isLoading: playgroundsLoading} = useMockPlaygrounds();
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["playgrounds"]));
     const navigate = useNavigate();
     const location = useLocation();
+    const {setCurrentPlayground, clearPlayground} = usePlaygroundContext();
 
-    // Auto-expand playground sections based on current URL
     useEffect(() => {
-        const pathMatch = location.pathname.match(/^\/playground\/([^/]+)/);
+        const pathMatch = location.pathname.match(/^\/playground\/([^/]+)\/([^/]+)/);
         if (pathMatch) {
             const playgroundName = decodeURIComponent(pathMatch[1]);
+            const optionName = pathMatch[2];
             setExpandedSections((prev) => new Set([...prev, "playgrounds", playgroundName]));
+            setCurrentPlayground(playgroundName, optionName);
+        } else {
+            clearPlayground();
         }
-    }, [location.pathname]);
+    }, [location.pathname, setCurrentPlayground, clearPlayground]);
 
     function toggleSection(sectionId: string) {
         setExpandedSections((prev) => {
@@ -78,6 +79,7 @@ export function SidebarNav({ className }: SidebarNavProps) {
     }
 
     function handlePlaygroundsClick() {
+        clearPlayground();
         navigate("/playgrounds");
     }
 
@@ -89,6 +91,7 @@ export function SidebarNav({ className }: SidebarNavProps) {
         };
         const route = routeMap[optionName];
         if (route) {
+            setCurrentPlayground(playgroundName, optionName);
             navigate(`/playground/${encodeURIComponent(playgroundName)}/${route}`);
         }
     }
@@ -107,7 +110,7 @@ export function SidebarNav({ className }: SidebarNavProps) {
         return location.pathname === "/playgrounds";
     }
 
-    function renderSubItem(playground: PlaygroundItem) {
+    function renderSubItem(playground: PlaygroundData) {
         const isExpanded = expandedSections.has(playground.name);
 
         return (
@@ -152,7 +155,19 @@ export function SidebarNav({ className }: SidebarNavProps) {
                             onClick={handlePlaygroundsClick}
                         />
 
-                        {expandedSections.has("playgrounds") && <div className="nav-children">{playgrounds.map(renderSubItem)}</div>}
+                        {expandedSections.has("playgrounds") && (
+                            <div className="nav-children">
+                                {playgroundsLoading ? (
+                                    <div className="nav-subitem">
+                                        <div className="nav-item-content">
+                                            <span className="nav-label">Loading...</span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    playgrounds.map(renderSubItem)
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

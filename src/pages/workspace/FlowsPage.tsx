@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
-import { DateRangePicker } from "../../components/DateRangePicker";
+import {useParams} from "react-router-dom";
+import {DateRangePicker} from "../../components/DateRangePicker";
 
 export function FlowsPage() {
-    const { playgroundName } = useParams<{ playgroundName: string }>();
+    const {playgroundName} = useParams<{playgroundName: string}>();
 
     return (
         <div className="page">

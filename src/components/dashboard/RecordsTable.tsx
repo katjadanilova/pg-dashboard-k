@@ -210,17 +210,8 @@ export function RecordsTable({
                             textField: {
                                 size: "small",
                                 fullWidth: true,
-
                                 placeholder: filter.label,
                                 label: "",
-                                sx: {
-                                    fontSize: "0.875rem",
-                                    minWidth: "150px",
-                                    "& .MuiInputBase-input": {
-                                        fontSize: "0.875rem",
-                                    },
-                                    backgroundColor: "white",
-                                },
                             },
                         }}
                     />
@@ -236,11 +227,6 @@ export function RecordsTable({
                     value={filterValues[filter.field] || ""}
                     onChange={(e) => handleFilterChange(filter.field, e.target.value)}
                     label={filter.label}
-                    sx={{
-                        minWidth: "150px",
-                        backgroundColor: "white",
-                        fontSize: "0.875rem",
-                    }}
                 >
                     {filter.options?.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -279,6 +265,7 @@ export function RecordsTable({
                                 columns={gridColumns}
                                 loading={loading}
                                 showToolbar
+                                getRowId={(row) => row.referenceNo}
                                 slots={{
                                     toolbar: CustomToolbar,
                                 }}

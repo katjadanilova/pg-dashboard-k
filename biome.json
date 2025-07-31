@@ -12,7 +12,7 @@
         "enabled": true,
         "indentStyle": "space",
         "indentWidth": 4,
-        "bracketSpacing": true
+        "bracketSpacing": false
     },
     "linter": {
         "enabled": true,
@@ -45,7 +45,16 @@
         "formatter": {
             "quoteStyle": "double",
             "bracketSpacing": false,
-            "lineWidth": 160
+            "lineWidth": 160,
+            "jsxQuoteStyle": "double"
+        },
+        "parser": {
+            "unsafeParameterDecoratorsEnabled": true
+        }
+    },
+    "json": {
+        "parser": {
+            "allowComments": true
         }
     }
 }

@@ -1,13 +1,22 @@
-import { CheckCircle, DirectionsRun, Error as ErrorIcon, PlayArrow } from "@mui/icons-material";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { DateRangePicker } from "../../components/DateRangePicker";
-import { BreakdownCard, Card } from "../../components/dashboard/Card";
-import { formatNumber } from "../../utils";
+import {CheckCircle, DirectionsRun, Error as ErrorIcon, PlayArrow} from "@mui/icons-material";
+import {LinearProgress} from "@mui/joy";
+import {useState} from "react";
+import {breakdownData} from "../../api/mockData";
+import {DateRangePicker} from "../../components/DateRangePicker";
+import {BreakdownCard, Card} from "../../components/dashboard/Card";
+import {ErrorDisplay} from "../../components/ErrorDisplay";
+import {usePlaygroundContext} from "../../contexts/UIStateContext";
+import {useMockDashboard} from "../../hooks/useMockData";
+import type {DashboardData} from "../../types";
+import {formatNumber} from "../../utils";
 
 type TriggerCard = "started" | "finished" | "failed" | "running" | null;
 
-function StatsCards() {
+type StatsCardsProps = {
+    data: DashboardData;
+};
+
+function StatsCards({data}: StatsCardsProps) {
     const [showBreakdown, setShowBreakdown] = useState(false);
     const [triggerCard, setTriggerCard] = useState<TriggerCard>(null);
 
@@ -21,20 +30,11 @@ function StatsCards() {
         }
     }
 
-    const breakdownData = [
-        { title: "Default Notice", count: formatNumber("123400") },
-        { title: "DLR", count: formatNumber("89000") },
-        { title: "Mail Handler", count: formatNumber("156000") },
-        { title: "Mail", count: formatNumber("89000") },
-        { title: "Broken", count: formatNumber("45000") },
-        { title: "New", count: formatNumber("30000") },
-    ];
-
     return (
         <div className="stats-cards">
             <Card
-                title="Started"
-                count={formatNumber("523400")}
+                title="Total Started"
+                count={formatNumber(data.started.toString())}
                 icon={<PlayArrow />}
                 iconClass="card-icon-started"
                 onExpand={() => handleExpand("started")}
@@ -44,20 +44,26 @@ function StatsCards() {
 
             <Card
                 title="Finished"
-                count={formatNumber("32215")}
+                count={formatNumber(data.finished.toString())}
                 icon={<CheckCircle />}
                 iconClass="card-icon-finished"
                 onExpand={() => console.log("finished")}
             />
 
-            <Card title="Failed" count={formatNumber("5000")} icon={<ErrorIcon />} iconClass="card-icon-failed" onExpand={() => console.log("failed")} />
-
             <Card
-                title="Still Running"
-                count={formatNumber("11789")}
+                title="Active"
+                count={formatNumber(data.failed.toString())}
                 icon={<DirectionsRun />}
                 iconClass="card-icon-running"
                 onExpand={() => console.log("running")}
+            />
+
+            <Card
+                title="Failed"
+                count={formatNumber(data.stillRunning.toString())}
+                icon={<ErrorIcon />}
+                iconClass="card-icon-failed"
+                onExpand={() => console.log("recent")}
             />
 
             {showBreakdown && triggerCard && (
@@ -72,12 +78,29 @@ function StatsCards() {
 }
 
 export function DashboardPage() {
-    const { playgroundName } = useParams<{ playgroundName: string }>();
+    const {playgroundState} = usePlaygroundContext();
+    const {data: dashboardData, isLoading, error} = useMockDashboard();
+
+    if (isLoading) {
+        return (
+            <div className="stats-cards loading">
+                <LinearProgress />
+            </div>
+        );
+    }
+
+    if (error) {
+        return <ErrorDisplay error={error as Error} />;
+    }
+
+    if (!dashboardData) {
+        return <div className="stats-cards">No data available</div>;
+    }
 
     return (
         <div className="page">
             <div className="page-subheader">
-                <h1>Dashboard / {playgroundName}</h1>
+                <h1>Dashboard / {playgroundState.currentPlayground}</h1>
                 <div className="date-range-section">
                     <DateRangePicker />
                 </div>
@@ -85,7 +108,7 @@ export function DashboardPage() {
 
             <div className="page-content">
                 <div className="dashboard-content">
-                    <StatsCards />
+                    <StatsCards data={dashboardData} />
                 </div>
             </div>
         </div>

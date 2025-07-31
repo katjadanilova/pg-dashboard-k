@@ -83,7 +83,7 @@ main {
     align-items: center;
     background: linear-gradient(180deg, $upwire-blue-alt-2, $cs11);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    padding: 0.7rem;
+    padding: 0.5rem;
 
     img {
         height: 28px;
@@ -320,7 +320,7 @@ main {
 
         .records-table-filters {
             background-color: $tile-bg-alt1;
-            padding: 0.5rem;
+            padding: 1rem 0.5rem;
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -346,6 +346,19 @@ main {
 
                 .filter-dropdown {
                     min-width: 150px;
+
+                    .MuiSelect-select {
+                        background-color: white;
+                        min-width: 150px;
+                        font-size: 0.875rem;
+
+                    }
+
+                    .MuiPickersInputBase-root {
+                        min-width: 150px;
+                        font-size: 0.875rem;
+                        background-color: white;
+                    }
                 }
 
                 .MuiButton-root {
