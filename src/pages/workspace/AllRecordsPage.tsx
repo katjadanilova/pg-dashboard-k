@@ -1,5 +1,4 @@
 import {useMemo, useState} from "react";
-import {DateRangePicker} from "../../components/DateRangePicker";
 import {RecordsTable} from "../../components/dashboard/RecordsTable";
 import {usePlaygroundContext} from "../../contexts/UIStateContext";
 import {useMockRecords} from "../../hooks/useMockData";
@@ -111,9 +110,6 @@ export function AllRecordsPage() {
         <div className="page">
             <div className="page-subheader">
                 <h1>All Records / {playgroundState.currentPlayground}</h1>
-                <div className="date-range-section">
-                    <DateRangePicker />
-                </div>
             </div>
 
             <div className="page-content">

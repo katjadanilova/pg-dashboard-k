@@ -112,19 +112,28 @@ export const breakdownData = [
 
 export const mockPlaygrounds: PlaygroundData[] = [
     {
-        id: "pg-1",
         name: "21D",
         lastModified: "2025-01-20T14:22:00Z",
+        testValue: "381e",
+        prodValue: "381e",
+        successRate: "100",
+        failureRate: "0",
     },
     {
-        id: "pg-2",
         name: "30Day",
         lastModified: "2025-01-20T11:15:00Z",
+        testValue: "6ebd",
+        prodValue: "6ebd",
+        successRate: "100",
+        failureRate: "0",
     },
     {
-        id: "pg-3",
         name: "Hardship",
         lastModified: "2025-01-15T09:30:00Z",
+        testValue: "4de3",
+        prodValue: null,
+        successRate: "0",
+        failureRate: "0",
     },
 ];
 

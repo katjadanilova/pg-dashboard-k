@@ -6,6 +6,7 @@ import {type ReactElement, useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {usePlaygroundContext} from "../contexts/UIStateContext";
 import "../global.scss";
+import {LinearProgress} from "@mui/joy";
 import {useMockPlaygrounds} from "../hooks/useMockData";
 import type {PlaygroundData} from "../types";
 
@@ -160,7 +161,7 @@ export function SidebarNav({className}: SidebarNavProps) {
                                 {playgroundsLoading ? (
                                     <div className="nav-subitem">
                                         <div className="nav-item-content">
-                                            <span className="nav-label">Loading...</span>
+                                            <LinearProgress />
                                         </div>
                                     </div>
                                 ) : (

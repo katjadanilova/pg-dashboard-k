@@ -16,9 +16,12 @@ export type DashboardData = {
 };
 
 export type PlaygroundData = {
-    id: string;
     name: string;
     lastModified: string;
+    testValue: string | null;
+    prodValue: string | null;
+    successRate: string;
+    failureRate: string;
 };
 
 export type APIResponse<T> = {

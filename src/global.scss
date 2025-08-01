@@ -2,6 +2,8 @@
 @use "variables" as *;
 @import "reset.css";
 
+$box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
 html,
 body {
     font-family: $family-sans-serif;
@@ -18,6 +20,7 @@ main {
     flex-direction: column;
     min-height: 100vh;
     background-color: $body-background-color;
+    justify-content: flex-start;
 }
 
 .app-layout {
@@ -82,7 +85,7 @@ main {
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(180deg, $upwire-blue-alt-2, $cs11);
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    box-shadow: $box-shadow;
     padding: 0.5rem;
 
     img {
@@ -115,7 +118,7 @@ main {
             padding: 5em;
             border-radius: 1em;
             background-color: $body-background-color;
-            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            box-shadow: $box-shadow;
             animation: pop 0.35s ease-out backwards;
 
             @keyframes pop {
@@ -241,6 +244,7 @@ main {
     display: flex;
     flex-direction: column;
     height: 100%;
+    justify-content: flex-start;
 
     .page-subheader {
         display: flex;
@@ -290,7 +294,7 @@ main {
         border: 1px solid $tile-bg-alt2;
         border-radius: 8px;
         padding: 1rem;
-        box-shadow: rgba(149, 157, 165, 0.1) 0px 2px 8px;
+        box-shadow: $box-shadow;
 
         h3 {
             margin-top: 0;
@@ -351,7 +355,6 @@ main {
                         background-color: white;
                         min-width: 150px;
                         font-size: 0.875rem;
-
                     }
 
                     .MuiPickersInputBase-root {
@@ -443,7 +446,7 @@ main {
             border: 1px solid $tile-bg-alt2;
             border-radius: 8px;
             padding: 1.5rem;
-            box-shadow: rgba(149, 157, 165, 0.1) 0px 2px 8px;
+            box-shadow: $box-shadow;
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -568,7 +571,7 @@ main {
                 background: white;
                 border-radius: 6px;
                 padding: 1rem;
-                box-shadow: rgba(149, 157, 165, 0.05) 0px 1px 4px;
+                box-shadow: $box-shadow;
                 display: flex;
                 flex-direction: column;
                 gap: 0.5rem;
@@ -591,6 +594,110 @@ main {
                     font-weight: 600;
                     color: $text-base;
                     line-height: 1;
+                }
+            }
+        }
+    }
+
+    .playgrounds-list {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        padding: 2rem;
+
+        .playground-card {
+            background: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: $box-shadow;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            min-width: 500px;
+            gap: 2rem;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+            }
+
+            .playground-card-header {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                .playground-chips {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 0.5rem;
+
+                    .playground-chip {
+                        border-radius: 4px;
+                        display: flex;
+                        gap: 0.5rem;
+                        align-items: center;
+                        padding-right: 0.5rem;
+                        color: $grey-dark2;
+
+                        &.playground-chip-test {
+                            background-color: $yellow-light-background;
+                            border: 1px solid $upwire-yellow-1;
+
+                            .playground-chip-label-test {
+                                color: white;
+                                padding: 0.2rem;
+                                background-color: $upwire-yellow-1;
+                            }
+                        }
+
+                        &.playground-chip-prod {
+                            background-color: $green-light-background;
+                            border: 1px solid $upwire-green-2;
+
+                            .playground-chip-label-prod {
+                                color: white;
+                                padding: 0.2rem;
+                                background-color: $upwire-green-2;
+                            }
+                        }
+
+                        &.playground-chip-grey {
+                            background-color: $grey;
+                            border: 1px solid $grey-light;
+
+                            .playground-chip-label-test,
+                            .playground-chip-label-prod {
+                                color: white;
+                                padding: 0.2rem;
+                                background-color: $grey-light;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .playground-card-content {
+                display: flex;
+                gap: 1rem;
+
+                .playground-stat {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    color: $grey-dark2;
+                    gap: 0.5rem;
+
+                    .playground-stat-value-success {
+                        font-size: 1.5rem;
+                        color: $upwire-green-2;
+                    }
+
+                    .playground-stat-value-failure {
+                        font-size: 1.5rem;
+                        color: $upwire-pink-1;
+                    }
                 }
             }
         }
