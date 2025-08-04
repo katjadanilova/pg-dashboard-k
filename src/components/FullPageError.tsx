@@ -1,4 +1,4 @@
-import {Button} from "@mui/joy";
+import {UpButton} from "./UpComponents";
 
 export type FullPageErrorProps = {
     title: string;
@@ -13,18 +13,17 @@ export function FullPageError(props: FullPageErrorProps) {
                 <h1>{title}</h1>
                 {description && <p>{description}</p>}
                 <div className="controls">
-                    <Button variant="plain" onClick={() => window.location.reload()}>
-                        {" "}
-                        Reload{" "}
-                    </Button>
-                    <Button
+                    <UpButton variant="plain" onClick={() => window.location.reload()}>
+                        Reload
+                    </UpButton>
+                    <UpButton
                         variant="solid"
                         onClick={() => {
                             window.location.href = "/";
                         }}
                     >
                         Dashboard
-                    </Button>
+                    </UpButton>
                 </div>
             </div>
         </div>

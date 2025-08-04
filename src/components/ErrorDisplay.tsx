@@ -1,4 +1,4 @@
-import {Alert} from "@mui/joy";
+import {UpAlert} from "./UpComponents";
 
 export type ErrorDisplayProps = {
     error: string | string[] | Error | null;
@@ -12,7 +12,7 @@ export function ErrorDisplay({error, title = "Error"}: ErrorDisplayProps) {
 
     return (
         <div className="error-display">
-            <Alert
+            <UpAlert
                 color="danger"
                 sx={{
                     display: "flex",
@@ -32,7 +32,7 @@ export function ErrorDisplay({error, title = "Error"}: ErrorDisplayProps) {
                         <li key={index}>{msg}</li>
                     ))}
                 </ul>
-            </Alert>
+            </UpAlert>
         </div>
     );
 }

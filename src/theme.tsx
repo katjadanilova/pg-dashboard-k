@@ -121,6 +121,26 @@ export const muiJoyUpwireTheme = extendTheme({
         display: `"Sofia Pro", "Helvetica", "Arial", sans-serif`,
         body: `"Sofia Pro", "Helvetica", "Arial", sans-serif`,
     },
+    components: {
+        JoySkeleton: {
+            defaultProps: {
+                animation: "wave",
+            },
+            styleOverrides: {
+                root: {
+                    borderRadius: "8px",
+                    "&::before": {
+                        backgroundColor: "#f8f8f8",
+                        borderRadius: "8px",
+                    },
+                    "&::after": {
+                        backgroundColor: "#f8f8f8",
+                        borderRadius: "8px",
+                    },
+                },
+            },
+        },
+    },
 });
 
 export function UpwireJoyThemeProvider({children}: {children?: ReactNode}) {

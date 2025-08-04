@@ -1,5 +1,4 @@
 import {Clear, KeyboardArrowDown} from "@mui/icons-material";
-import {Button, createTheme, ThemeProvider} from "@mui/material";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -7,6 +6,7 @@ import dayjs, {type Dayjs} from "dayjs";
 import {useEffect, useRef, useState} from "react";
 import type {DateRange} from "../contexts/UIStateContext";
 import {useDateRangeContext} from "../contexts/UIStateContext";
+import {UpMaterialButton, UpMaterialThemeProvider} from "./UpMaterialComponents";
 
 const shortcuts = [
     {label: "This Week", getValue: (): DateRange<Dayjs> => [dayjs().startOf("week"), dayjs().endOf("week")]},
@@ -15,14 +15,6 @@ const shortcuts = [
     {label: "Current Month", getValue: (): DateRange<Dayjs> => [dayjs().startOf("month"), dayjs().endOf("month")]},
     {label: "Reset", getValue: (): DateRange<Dayjs> => [null, null]},
 ];
-
-const materialTheme = createTheme({
-    palette: {
-        primary: {
-            main: "#4747b5",
-        },
-    },
-});
 
 export function DateRangePicker() {
     const {dateRangeState, setDateRange} = useDateRangeContext();
@@ -47,7 +39,6 @@ export function DateRangePicker() {
             return "Select Date Range";
         }
 
-        // Check if current selection matches any shortcut
         for (const shortcut of shortcuts) {
             if (shortcut.label === "Reset") continue;
 
@@ -61,7 +52,6 @@ export function DateRangePicker() {
             }
         }
 
-        // If no shortcut matches, show the date range
         if (startDate && endDate) {
             const startFormatted = startDate.format("MMM DD");
             const endFormatted = endDate.format("MMM DD");
@@ -109,22 +99,20 @@ export function DateRangePicker() {
     }, [isOpen]);
 
     return (
-        <ThemeProvider theme={materialTheme}>
+        <UpMaterialThemeProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <div className="date-range-picker-container" ref={containerRef} style={{position: "relative"}}>
-                    <Button
+                    <UpMaterialButton
                         variant="contained"
                         onClick={handleTriggerClick}
                         endIcon={<KeyboardArrowDown />}
                         sx={{
-                            borderRadius: "8px",
-                            textTransform: "none",
                             minWidth: "200px",
                             justifyContent: "space-between",
                         }}
                     >
                         {getCurrentSelectionLabel()}
-                    </Button>
+                    </UpMaterialButton>
 
                     {isOpen && (
                         <div className="date-range-picker-dropdown">
@@ -173,7 +161,7 @@ export function DateRangePicker() {
 
                             <div className="shortcuts">
                                 {shortcuts.map((shortcut) => (
-                                    <Button
+                                    <UpMaterialButton
                                         key={shortcut.label}
                                         variant="outlined"
                                         size="small"
@@ -182,13 +170,13 @@ export function DateRangePicker() {
                                         startIcon={shortcut.label === "Reset" ? <Clear /> : undefined}
                                     >
                                         {shortcut.label}
-                                    </Button>
+                                    </UpMaterialButton>
                                 ))}
                             </div>
                         </div>
                     )}
                 </div>
             </LocalizationProvider>
-        </ThemeProvider>
+        </UpMaterialThemeProvider>
     );
 }

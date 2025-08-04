@@ -1,7 +1,7 @@
-import {LinearProgress} from "@mui/joy";
 import {useNavigate} from "react-router-dom";
 import {DateRangePicker} from "../../components/DateRangePicker";
 import {ErrorDisplay} from "../../components/ErrorDisplay";
+import {UpSkeleton} from "../../components/UpComponents";
 import {useMockPlaygrounds} from "../../hooks/useMockData";
 import type {PlaygroundData} from "../../types";
 import {formatNumber} from "../../utils";
@@ -51,15 +51,40 @@ function PlaygroundCard({playground}: {playground: PlaygroundData}) {
     );
 }
 
+function LoadingSkeleton() {
+    return (
+        <div className="page">
+            <div className="page-subheader">
+                <h1>Playgrounds</h1>
+                <div className="date-range-section">
+                    <DateRangePicker />
+                </div>
+            </div>
+
+            <div className="page-content">
+                <div className="playgrounds-list">
+                    {Array.from({length: 3}, (_, index) => (
+                        <div key={index} className="playground-card">
+                            <div className="playground-card-header">
+                                <UpSkeleton variant="rectangular" width={80} height={32} sx={{marginBottom: "1rem"}} />
+                                <div className="playground-chips">
+                                    <UpSkeleton variant="rectangular" width={80} height={32} />
+                                    <UpSkeleton variant="rectangular" width={80} height={32} />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function PlaygroundsPage() {
     const {data: playgrounds, isLoading, error} = useMockPlaygrounds();
 
     if (isLoading) {
-        return (
-            <div className="page-content">
-                <LinearProgress />
-            </div>
-        );
+        return <LoadingSkeleton />;
     }
 
     if (error) {

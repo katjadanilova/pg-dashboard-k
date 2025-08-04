@@ -2,7 +2,6 @@ import {useMemo, useState} from "react";
 import {RecordsTable} from "../../components/dashboard/RecordsTable";
 import {usePlaygroundContext} from "../../contexts/UIStateContext";
 import {useMockRecords} from "../../hooks/useMockData";
-import type {RecordData} from "../../types";
 
 function getColumnRenderer(fieldName: string) {
     switch (fieldName.toLowerCase()) {
@@ -13,20 +12,21 @@ function getColumnRenderer(fieldName: string) {
     }
 }
 
-function generateBatchOptions(data: RecordData[]) {
-    if (!data.length) return [{value: "All", label: "All"}];
-
-    const uniqueBatches = [...new Set(data.map((item) => item.batchNo).filter(Boolean))];
-    return [{value: "All", label: "All"}, ...uniqueBatches.map((batch) => ({value: batch.toString(), label: batch.toString()}))];
-}
-
 export function AllRecordsPage() {
     const {playgroundState} = usePlaygroundContext();
     const {data: records, isLoading, error} = useMockRecords({playgroundName: playgroundState.currentPlayground ?? undefined});
     const [filterValues, setFilterValues] = useState<Record<string, string>>({});
 
     const columns = useMemo(() => {
-        if (!records || records.length === 0) return [];
+        if (!records || records.length === 0) {
+            return [
+                {field: "referenceNo", headerName: "Reference No", sortable: true, flex: 1},
+                {field: "date", headerName: "Date", sortable: true, flex: 1},
+                {field: "batchNo", headerName: "Batch No", sortable: true, flex: 1},
+                {field: "status", headerName: "Status", sortable: true, flex: 1},
+                {field: "result", headerName: "Result", sortable: true, flex: 1},
+            ];
+        }
 
         const firstRecord = records[0];
         const dataFields = Object.keys(firstRecord);
@@ -38,38 +38,6 @@ export function AllRecordsPage() {
             flex: 1,
             renderCell: getColumnRenderer(fieldName),
         }));
-    }, [records]);
-
-    const filters = useMemo(() => {
-        if (!records || records.length === 0) return [];
-
-        return [
-            {
-                field: "date",
-                label: "Date",
-                type: "date" as const,
-                defaultValue: "",
-            },
-            {
-                field: "batchNo",
-                label: "Batch Number",
-                type: "dropdown" as const,
-                options: generateBatchOptions(records),
-                defaultValue: "All",
-            },
-            {
-                field: "status",
-                label: "Status",
-                type: "dropdown" as const,
-                options: [
-                    {value: "All", label: "All"},
-                    {value: "active", label: "Active"},
-                    {value: "failed", label: "Failed"},
-                    {value: "finished", label: "Finished"},
-                ],
-                defaultValue: "All",
-            },
-        ];
     }, [records]);
 
     const filteredData = useMemo(() => {
@@ -114,14 +82,7 @@ export function AllRecordsPage() {
 
             <div className="page-content">
                 {error && <div className="error-message">Failed to load records: {error.message}</div>}
-                <RecordsTable
-                    data={filteredData}
-                    columns={columns}
-                    filters={filters}
-                    loading={isLoading}
-                    onFilterChange={onFilterChange}
-                    onResetFilters={onResetFilters}
-                />
+                <RecordsTable data={filteredData} columns={columns} loading={isLoading} onFilterChange={onFilterChange} onResetFilters={onResetFilters} />
             </div>
         </div>
     );

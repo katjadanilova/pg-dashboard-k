@@ -6,9 +6,9 @@ import {type ReactElement, useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {usePlaygroundContext} from "../contexts/UIStateContext";
 import "../global.scss";
-import {LinearProgress} from "@mui/joy";
 import {useMockPlaygrounds} from "../hooks/useMockData";
 import type {PlaygroundData} from "../types";
+import {UpSkeleton} from "./UpComponents";
 
 type SidebarNavProps = {
     className?: string;
@@ -39,6 +39,21 @@ function NavButton({icon, label, isActive = false, hasArrow = false, isExpanded 
                 </span>
             )}
         </button>
+    );
+}
+
+function LoadingSkeleton() {
+    return (
+        <div className="nav-section">
+            <div className="nav-items">
+                <div className="nav-children">
+                    <div className="nab-subitem"></div>
+                    {Array.from({length: 3}, (_, index) => (
+                        <UpSkeleton key={index} variant="rectangular" width="100%" height="30px" />
+                    ))}
+                </div>
+            </div>
+        </div>
     );
 }
 
@@ -157,17 +172,7 @@ export function SidebarNav({className}: SidebarNavProps) {
                         />
 
                         {expandedSections.has("playgrounds") && (
-                            <div className="nav-children">
-                                {playgroundsLoading ? (
-                                    <div className="nav-subitem">
-                                        <div className="nav-item-content">
-                                            <LinearProgress />
-                                        </div>
-                                    </div>
-                                ) : (
-                                    playgrounds.map(renderSubItem)
-                                )}
-                            </div>
+                            <div className="nav-children">{playgroundsLoading ? <LoadingSkeleton /> : playgrounds.map(renderSubItem)}</div>
                         )}
                     </div>
                 </div>

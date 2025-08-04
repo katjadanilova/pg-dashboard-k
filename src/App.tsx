@@ -1,11 +1,11 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
-import {Dropdown, ListItemDecorator, Menu, MenuButton, MenuItem, Typography} from "@mui/joy";
 import {useState} from "react";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {APIProvider} from "./api/client";
 import upwireLogo from "./assets/upwire-logo.png";
 import {SidebarNav} from "./components/SidebarNav";
+import {UpDropdown, UpListItemDecorator, UpMenu, UpMenuButton, UpMenuItem} from "./components/UpComponents";
 import {AuthProvider, useAuthContext} from "./contexts/AuthContext";
 import {UIStateProvider} from "./contexts/UIStateContext";
 import "./global.scss";
@@ -32,34 +32,35 @@ function PageHeader() {
         <div className="app-header">
             <img src={upwireLogo} alt="Upwire Logo" />
 
-            <Dropdown open={open} onOpenChange={handleOpenChange}>
-                <MenuButton size="sm" variant="solid" color="primary" sx={{borderRadius: "100%", padding: "5px"}}>
+            <UpDropdown open={open} onOpenChange={handleOpenChange}>
+                <UpMenuButton size="sm" variant="solid" color="primary" sx={{borderRadius: "100%", padding: "5px"}}>
                     <AccountCircleIcon style={{width: "30px", height: "30px"}} />
-                </MenuButton>
-                <Menu size="sm" id="user-menu" placement="bottom-end">
-                    <MenuItem onClick={handleLogout}>
-                        <ListItemDecorator>
+                </UpMenuButton>
+                <UpMenu size="sm" id="user-menu" placement="bottom-end">
+                    <UpMenuItem onClick={handleLogout}>
+                        <UpListItemDecorator>
                             <LogoutIcon color="primary" />
-                        </ListItemDecorator>
-                        <Typography>Log out</Typography>
-                    </MenuItem>
-                </Menu>
-            </Dropdown>
+                        </UpListItemDecorator>
+                        <span>Log out</span>
+                    </UpMenuItem>
+                </UpMenu>
+            </UpDropdown>
         </div>
     );
 }
 
 function AppContent() {
     /*
+    const {initializing, needsAuthentication} = useAuthContext();
     if (initializing) {
-        return <LinearProgress />;
+        return <UpProgress />;
     }
 
 
     if (needsAuthentication) {
         return <LoginScreen />;
     }
-        */
+     */
 
     return (
         <UpwireJoyThemeProvider>

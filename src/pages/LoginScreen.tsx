@@ -1,8 +1,8 @@
 import {AccountCircle, Key} from "@mui/icons-material";
-import {Button, FormControl, FormLabel, Input} from "@mui/joy";
 import {useTheme} from "@mui/joy/styles";
 import {type KeyboardEvent, useEffect, useRef, useState} from "react";
 import {FullPageError} from "../components/FullPageError";
+import {UpButton, UpFormField} from "../components/UpComponents";
 import {useAuthContext} from "../contexts/AuthContext";
 
 function useAutoFocus() {
@@ -43,39 +43,35 @@ export function LoginScreen() {
 
                     {error && <FullPageError title="We've encountered an error:" description={error.toString()} />}
 
-                    <FormControl>
-                        <FormLabel>Your email address</FormLabel>
-                        <Input
-                            disabled={working}
-                            type="email"
-                            autoComplete="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            slotProps={{
-                                input: {
-                                    ref: inputRef,
-                                },
-                            }}
-                            startDecorator={<AccountCircle sx={{color: theme.vars.palette.primary["300"]}} />}
-                        />
-                    </FormControl>
+                    <UpFormField
+                        label="Your email address"
+                        value={username}
+                        onChange={setUsername}
+                        type="email"
+                        disabled={working}
+                        autoComplete="username"
+                        startDecorator={<AccountCircle sx={{color: theme.vars.palette.primary["300"]}} />}
+                        slotProps={{
+                            input: {
+                                ref: inputRef,
+                            },
+                        }}
+                    />
 
-                    <FormControl>
-                        <FormLabel>Your password</FormLabel>
-                        <Input
-                            onKeyDown={handleKeyDown}
-                            disabled={working}
-                            type="password"
-                            autoComplete="current-password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            startDecorator={<Key sx={{color: theme.vars.palette.primary["300"]}} />}
-                        />
-                    </FormControl>
+                    <UpFormField
+                        label="Your password"
+                        value={password}
+                        onChange={setPassword}
+                        type="password"
+                        disabled={working}
+                        autoComplete="current-password"
+                        onKeyDown={handleKeyDown}
+                        startDecorator={<Key sx={{color: theme.vars.palette.primary["300"]}} />}
+                    />
 
-                    <Button loading={working} type="submit" fullWidth onClick={submit} onKeyDown={handleKeyDown} disabled={!username || !password}>
+                    <UpButton loading={working} type="submit" fullWidth onClick={submit} onKeyDown={handleKeyDown} disabled={!username || !password}>
                         Sign In
-                    </Button>
+                    </UpButton>
                 </div>
             </div>
         </div>

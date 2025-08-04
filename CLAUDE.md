@@ -39,13 +39,13 @@ We are building a view-only dashboard for end customers.
 - Use try/catch blocks with proper error logging (console.error with chalk, include red stack trace)
 - Use const by default, let when necessary
 - When implementing features, ensure proper error handling and maintain the existing documentation patterns.
-- Never add spaces inside curly brackets. Use {import} not { import }, {prop} not { prop }
 
 # Frontend And UI
 
 - Do not create a special dark mode case, everything is light-mode, and that's the only option for this app.
 - Use scss, and never tailwind.
 - All interactive elements should have proper focus states.
+- Whenever possible, prefer wrapped components from UpComponents and UpMaterialComponents. UpComponents wrap MUI Joy, our main UI components library. 
 
 ### TypeScript
 
