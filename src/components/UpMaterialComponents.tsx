@@ -48,6 +48,39 @@ const upMaterialTheme = createTheme({
                     textTransform: "none",
                     borderRadius: "8px",
                 },
+                outlined: {
+                    backgroundColor: "white",
+                    borderWidth: "1px",
+                    borderColor: "rgba(0, 0, 0, 0.23)",
+                    height: "35px",
+                    color: "#515151",
+                    fontSize: "1rem",
+                    "&:hover": {
+                        backgroundColor: "white",
+                        borderColor: "#4747b5",
+                    },
+                    "&:focus": {
+                        backgroundColor: "white",
+                        borderColor: "#4747b5",
+                        outline: "1px solid #4747b5",
+                    },
+                    "&.Mui-focused": {
+                        backgroundColor: "white",
+                        borderColor: "#4747b5",
+                        outline: "1px solid #4747b5",
+                    },
+                    "&.MuiButton-sizeSmall": {
+                        height: "28px",
+                        color: "#4747b5",
+                        fontSize: "0.875rem",
+                    },
+                    "&.MuiButton-sizeMedium": {
+                        height: "35px",
+                    },
+                    "&.MuiButton-sizeLarge": {
+                        height: "42px",
+                    },
+                },
             },
         },
         MuiTextField: {
@@ -64,6 +97,19 @@ const upMaterialTheme = createTheme({
                 root: {
                     borderRadius: "8px",
                 },
+                outlined: {
+                    "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "rgba(0, 0, 0, 0.23)",
+                        borderWidth: "1px",
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#4747b5",
+                    },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#4747b5",
+                        borderWidth: "2px",
+                    },
+                },
             },
         },
         MuiFormControl: {
@@ -71,6 +117,16 @@ const upMaterialTheme = createTheme({
                 root: {
                     "& .MuiOutlinedInput-root": {
                         borderRadius: "8px",
+                        height: "35px",
+                    },
+                    "&.MuiFormControl-sizeSmall .MuiOutlinedInput-root": {
+                        height: "28px",
+                    },
+                    "&.MuiFormControl-sizeMedium .MuiOutlinedInput-root": {
+                        height: "35px",
+                    },
+                    "&.MuiFormControl-sizeLarge .MuiOutlinedInput-root": {
+                        height: "42px",
                     },
                 },
             },

@@ -4,11 +4,14 @@ import {RecordsTable} from "../../components/RecordsTable";
 import {UpModal} from "../../components/UpComponents";
 import {usePlaygroundContext} from "../../contexts/UIStateContext";
 import {useMockRecords} from "../../hooks/useMockData";
+import {formatDate} from "../../utils";
 
 function getColumnRenderer(fieldName: string, openJsonModal: (data: any) => void) {
     switch (fieldName.toLowerCase()) {
         case "status":
             return (params: any) => <span className={`status-badge status-${params.value}`}>{params.value}</span>;
+        case "date":
+            return (params: any) => <span>{formatDate(params.value)}</span>;
         case "json":
             return (params: any) => {
                 if (!params.value || params.value === "" || params.value === null || params.value === undefined) {
@@ -77,7 +80,8 @@ export function RecordsPage() {
 
         if (filterValues.date && filterValues.date.trim() !== "") {
             filtered = filtered.filter((item) => {
-                return item.date?.includes(filterValues.date);
+                const formattedDate = formatDate(item.date);
+                return formattedDate.toLowerCase().includes(filterValues.date.toLowerCase());
             });
         }
 

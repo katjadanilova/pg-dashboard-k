@@ -8,7 +8,9 @@ import type {DateRange} from "../contexts/UIStateContext";
 import {useDateRangeContext} from "../contexts/UIStateContext";
 import {UpMaterialButton, UpMaterialThemeProvider} from "./UpMaterialComponents";
 
-const shortcuts = [
+export const shortcuts = [
+    {label: "Today", getValue: (): DateRange<Dayjs> => [dayjs(), dayjs()]},
+    {label: "Yesterday", getValue: (): DateRange<Dayjs> => [dayjs().subtract(1, "day"), dayjs().subtract(1, "day")]},
     {label: "This Week", getValue: (): DateRange<Dayjs> => [dayjs().startOf("week"), dayjs().endOf("week")]},
     {label: "Last Week", getValue: (): DateRange<Dayjs> => [dayjs().subtract(7, "day").startOf("week"), dayjs().subtract(7, "day").endOf("week")]},
     {label: "Last 7 Days", getValue: (): DateRange<Dayjs> => [dayjs().subtract(7, "day"), dayjs()]},
@@ -16,7 +18,12 @@ const shortcuts = [
     {label: "Reset", getValue: (): DateRange<Dayjs> => [null, null]},
 ];
 
-export function DateRangePicker() {
+type DateRangePickerProps = {
+    triggerStyle?: "dark" | "light";
+    dropdownPosition?: "left" | "right";
+};
+
+export function DateRangePicker({triggerStyle = "dark", dropdownPosition = "right"}: DateRangePickerProps) {
     const {dateRangeState, setDateRange} = useDateRangeContext();
     const [startDate, endDate] = dateRangeState.dateRange;
     const [isOpen, setIsOpen] = useState(false);
@@ -84,8 +91,14 @@ export function DateRangePicker() {
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
+            const target = event.target as Node;
+
+            if (containerRef.current && !containerRef.current.contains(target)) {
+                const isDatePickerElement = (target as Element).closest('[role="dialog"], [data-mui-date-picker], .MuiPickersPopper-root, .MuiPaper-root');
+
+                if (!isDatePickerElement) {
+                    setIsOpen(false);
+                }
             }
         }
 
@@ -101,9 +114,9 @@ export function DateRangePicker() {
     return (
         <UpMaterialThemeProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <div className="date-range-picker-container" ref={containerRef} style={{position: "relative"}}>
+                <div className="date-range-picker-container" ref={containerRef}>
                     <UpMaterialButton
-                        variant="contained"
+                        variant={triggerStyle === "light" ? "outlined" : "contained"}
                         onClick={handleTriggerClick}
                         endIcon={<KeyboardArrowDown />}
                         sx={{
@@ -115,7 +128,12 @@ export function DateRangePicker() {
                     </UpMaterialButton>
 
                     {isOpen && (
-                        <div className="date-range-picker-dropdown">
+                        <div
+                            className="date-range-picker-dropdown"
+                            style={{
+                                [dropdownPosition === "left" ? "left" : "right"]: 0,
+                            }}
+                        >
                             <h3 className="title">Select Date Range</h3>
                             <div className="labels">
                                 <span className="label">{startDate ? startDate.format("MMM DD, YYYY") : "Start"}</span>
@@ -165,7 +183,6 @@ export function DateRangePicker() {
                                         key={shortcut.label}
                                         variant="outlined"
                                         size="small"
-                                        sx={{borderRadius: "12px"}}
                                         onClick={() => handleShortcutClick(shortcut.getValue)}
                                         startIcon={shortcut.label === "Reset" ? <Clear /> : undefined}
                                     >

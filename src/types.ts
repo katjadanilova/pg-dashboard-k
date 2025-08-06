@@ -1,7 +1,7 @@
 export type RecordData = {
     referenceNo: string;
     batchNo: string;
-    date: string;
+    date: string | number | Date; // Can be string, timestamp, or Date object
     customer?: string;
     comment?: string;
     status: "finished" | "active" | "failed";
@@ -18,7 +18,7 @@ export type DashboardData = {
 
 export type PlaygroundData = {
     name: string;
-    lastModified: string;
+    lastModified: string | number | Date; // Can be string, timestamp, or Date object
     testValue: string | null;
     prodValue: string | null;
     successRate: string;

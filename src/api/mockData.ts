@@ -5,7 +5,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769586jg",
         batchNo: "123-456",
-        date: "05.04.2025",
+        date: "05.04.2025", // String format
         customer: "Robert Johnson",
         comment: "Lorem ipsum dolor sit amet woould have beeen nice, but the user decided to put the entire fucking works of shakespeare in here",
         status: "finished",
@@ -15,7 +15,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769587jg",
         batchNo: "123-456",
-        date: "05.04.2025",
+        date: 1743897600, // Unix timestamp (seconds) - 2025-04-05
         customer: "Sarah Wilson",
         comment: "Lorem ipsum dolor sit amet",
         status: "failed",
@@ -25,7 +25,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769588jg",
         batchNo: "123-456",
-        date: "05.04.2025",
+        date: new Date("2025-04-05"), // Date object
         customer: "Michael Brown",
         comment: "Lorem ipsum dolor sit amet",
         status: "active",
@@ -34,7 +34,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769589jg",
         batchNo: "124-457",
-        date: "05.04.2025",
+        date: "2025-04-05", // ISO date string
         customer: "Emily Davis",
         comment: "Lorem ipsum dolor sit amet",
         status: "finished",
@@ -43,7 +43,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769590jg",
         batchNo: "124-457",
-        date: "05.04.2025",
+        date: 1743897600000, // Unix timestamp (milliseconds) - 2025-04-05
         customer: "David Miller",
         comment: "Lorem ipsum dolor sit amet",
         status: "active",
@@ -52,7 +52,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769591jg",
         batchNo: "125-458",
-        date: "05.04.2025",
+        date: "05.04.2025", // String format
         customer: "Lisa Anderson",
         comment: "Lorem ipsum dolor sit amet",
         status: "finished",
@@ -61,7 +61,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769592jg",
         batchNo: "125-458",
-        date: "06.04.2025",
+        date: 1743984000, // Unix timestamp (seconds) - 2025-04-06
         customer: "James Taylor",
         comment: "Lorem ipsum dolor sit amet",
         status: "failed",
@@ -70,7 +70,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769593jg",
         batchNo: "125-458",
-        date: "08.04.2025",
+        date: "2025-04-08T10:30:00Z", // ISO string with time
         customer: "Jennifer White",
         comment: "Lorem ipsum dolor sit amet",
         status: "active",
@@ -79,7 +79,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769594jg",
         batchNo: "125-458",
-        date: "06.04.2025",
+        date: new Date("2025-04-06"), // Date object
         customer: "Jennifer White",
         comment: "Lorem ipsum dolor sit amet",
         status: "active",
@@ -88,7 +88,7 @@ export const mockRecords: RecordData[] = [
     {
         referenceNo: "5769595jg",
         batchNo: "125-458",
-        date: "07.04.2025",
+        date: 1744156800, // Unix timestamp (seconds) - 2025-04-07
         customer: "Jennifer White",
         comment: "Lorem ipsum dolor sit amet",
         status: "active",
@@ -115,7 +115,7 @@ export const breakdownData = [
 export const mockPlaygrounds: PlaygroundData[] = [
     {
         name: "This is a long name that will break all designs",
-        lastModified: "2025-01-20T14:22:00Z",
+        lastModified: "2025-01-20T14:22:00Z", // ISO string
         testValue: "381e",
         prodValue: "381e",
         successRate: "100",
@@ -123,7 +123,7 @@ export const mockPlaygrounds: PlaygroundData[] = [
     },
     {
         name: "30Day",
-        lastModified: "2025-01-20T11:15:00Z",
+        lastModified: 1737456900, // Unix timestamp (seconds) - 2025-01-20T11:15:00Z
         testValue: "6ebd",
         prodValue: "6ebd",
         successRate: "100",
@@ -132,7 +132,7 @@ export const mockPlaygrounds: PlaygroundData[] = [
     },
     {
         name: "Hardship",
-        lastModified: "2025-01-15T09:30:00Z",
+        lastModified: new Date("2025-01-15T09:30:00Z"), // Date object
         testValue: "4de3",
         prodValue: null,
         successRate: "0",
@@ -141,7 +141,7 @@ export const mockPlaygrounds: PlaygroundData[] = [
     },
     {
         name: "New Project",
-        lastModified: "2025-01-25T10:00:00Z",
+        lastModified: 1737885600, // Unix timestamp (seconds) - 2025-01-25T10:00:00Z
         testValue: "abc1",
         prodValue: "abc1",
         successRate: "95",
@@ -150,7 +150,7 @@ export const mockPlaygrounds: PlaygroundData[] = [
     },
     {
         name: "Beta Test",
-        lastModified: "2025-01-24T16:30:00Z",
+        lastModified: "2025-01-24T16:30:00Z", // ISO string
         testValue: "def2",
         prodValue: null,
         successRate: "80",
@@ -159,7 +159,7 @@ export const mockPlaygrounds: PlaygroundData[] = [
     },
     {
         name: "Legacy System",
-        lastModified: "2025-01-10T08:45:00Z",
+        lastModified: 1736508300, // Unix timestamp (seconds) - 2025-01-10T08:45:00Z
         testValue: "ghi3",
         prodValue: "ghi3",
         successRate: "60",

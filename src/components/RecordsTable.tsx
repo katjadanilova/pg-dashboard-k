@@ -17,10 +17,11 @@ import {
     ToolbarButton,
 } from "@mui/x-data-grid";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs, {type Dayjs} from "dayjs";
 import {type ReactNode, useMemo, useState} from "react";
+import {useDateRangeContext} from "../contexts/UIStateContext";
+import {isDateInRange, parseDate} from "../utils";
+import {DateRangePicker} from "./DateRangePicker";
 import {
     UpMaterialButton,
     UpMaterialFormControl,
@@ -44,7 +45,7 @@ type ColumnConfig = {
 type FilterConfig = {
     field: string;
     label: string;
-    type?: "dropdown" | "date";
+    type?: "dropdown" | "dateRange";
     options?: Array<{value: string; label: string}>;
     defaultValue?: string;
 };
@@ -124,14 +125,15 @@ type CustomFilterBarProps = {
     onFilterChange: (field: string, value: string) => void;
     onResetFilters: () => void;
     batchNumbers: string[];
+    onResetDateRange: () => void;
 };
 
-function CustomFilterBar({filterValues, onFilterChange, onResetFilters, batchNumbers}: CustomFilterBarProps) {
+function CustomFilterBar({filterValues, onFilterChange, onResetFilters, batchNumbers, onResetDateRange}: CustomFilterBarProps) {
     const filters = [
         {
-            field: "date",
-            label: "Date",
-            type: "date" as const,
+            field: "dateRange",
+            label: "Date Range",
+            type: "dateRange" as const,
             defaultValue: "",
         },
         {
@@ -161,24 +163,10 @@ function CustomFilterBar({filterValues, onFilterChange, onResetFilters, batchNum
         },
     ];
     function renderFilter(filter: FilterConfig) {
-        if (filter.type === "date") {
+        if (filter.type === "dateRange") {
             return (
-                <div key={filter.field} className="filter-dropdown">
-                    <DatePicker
-                        value={filterValues[filter.field] ? dayjs(filterValues[filter.field]) : null}
-                        onChange={(date: Dayjs | null) => {
-                            const dateString = date ? date.format("YYYY-MM-DD") : "";
-                            onFilterChange(filter.field, dateString);
-                        }}
-                        slotProps={{
-                            textField: {
-                                size: "small",
-                                fullWidth: true,
-                                placeholder: filter.label,
-                                label: "",
-                            },
-                        }}
-                    />
+                <div key={filter.field}>
+                    <DateRangePicker triggerStyle="light" dropdownPosition="left" />
                 </div>
             );
         }
@@ -210,9 +198,19 @@ function CustomFilterBar({filterValues, onFilterChange, onResetFilters, batchNum
             </div>
             <div className="filters-content">
                 {filters.map(renderFilter)}
-                <UpMaterialButton variant="text" size="small" onClick={onResetFilters} startIcon={<ClearIcon />}>
-                    Reset Filter
-                </UpMaterialButton>
+                <div className="reset-button">
+                    <UpMaterialButton
+                        variant="text"
+                        size="small"
+                        onClick={() => {
+                            onResetFilters();
+                            onResetDateRange();
+                        }}
+                        startIcon={<ClearIcon />}
+                    >
+                        Reset Filter
+                    </UpMaterialButton>
+                </div>
             </div>
         </div>
     );
@@ -229,8 +227,8 @@ export function RecordsTable({
 }: RecordsTableProps) {
     const batchNumbers = useMemo(() => Array.from(new Set(data.map((item) => item.batchNo).filter(Boolean))).map((batch) => batch.toString()), [data]);
 
+    const {dateRangeState, setDateRange} = useDateRangeContext();
     const [filterValues, setFilterValues] = useState<Record<string, string>>({
-        date: "",
         batchNo: "All",
         status: "All",
     });
@@ -246,28 +244,45 @@ export function RecordsTable({
 
     function resetFilters() {
         setFilterValues({
-            date: "",
             batchNo: "All",
             status: "All",
         });
+        setDateRange([null, null]);
         onResetFilters?.();
     }
 
-    const gridColumns: GridColDef[] = columns.map((col) => ({
-        field: col.field,
-        headerName: col.headerName,
-        sortable: col.sortable !== false,
-        flex: col.flex,
-        renderCell: col.renderCell,
-    }));
+    const gridColumns: GridColDef[] = columns.map((col) => {
+        const isDateColumn = col.field.toLowerCase() === "date" || col.field.toLowerCase() === "lastmodified";
+
+        return {
+            field: col.field,
+            headerName: col.headerName,
+            sortable: col.sortable !== false,
+            flex: col.flex,
+            renderCell: col.renderCell,
+            sortComparator: isDateColumn
+                ? (v1: any, v2: any) => {
+                      const date1 = parseDate(v1);
+                      const date2 = parseDate(v2);
+
+                      if (!date1 || !date1.isValid()) return -1;
+                      if (!date2 || !date2.isValid()) return 1;
+
+                      return date1.isBefore(date2) ? -1 : date1.isAfter(date2) ? 1 : 0;
+                  }
+                : undefined,
+        };
+    });
 
     const filteredData = data.filter((record) => {
-        const dateFilter = filterValues.date;
+        const [startDate, endDate] = dateRangeState.dateRange;
         const batchFilter = filterValues.batchNo;
         const statusFilter = filterValues.status;
 
-        if (dateFilter && dateFilter.trim() !== "" && !record.date?.includes(dateFilter)) {
-            return false;
+        if (startDate || endDate) {
+            if (!isDateInRange(record.date, startDate, endDate)) {
+                return false;
+            }
         }
 
         if (batchFilter && batchFilter !== "All" && record.batchNo !== batchFilter) {
@@ -290,6 +305,7 @@ export function RecordsTable({
                         onFilterChange={handleFilterChange}
                         onResetFilters={resetFilters}
                         batchNumbers={batchNumbers}
+                        onResetDateRange={() => setDateRange([null, null])}
                     />
 
                     <div className="records-table-wrapper">
