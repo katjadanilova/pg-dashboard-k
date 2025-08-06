@@ -9,10 +9,11 @@ import {UpDropdown, UpListItemDecorator, UpMenu, UpMenuButton, UpMenuItem} from 
 import {AuthProvider, useAuthContext} from "./contexts/AuthContext";
 import {UIStateProvider} from "./contexts/UIStateContext";
 import "./global.scss";
-import {AllRecordsPage} from "./pages/workspace/AllRecordsPage";
+import {BatchesPage} from "./pages/workspace/BatchesPage";
 import {DashboardPage} from "./pages/workspace/DashboardPage";
 import {FlowsPage} from "./pages/workspace/FlowsPage";
 import {PlaygroundsPage} from "./pages/workspace/PlaygroundsPage";
+import {RecordsPage} from "./pages/workspace/RecordsPage";
 import {UpwireJoyThemeProvider} from "./theme";
 
 function PageHeader() {
@@ -74,7 +75,8 @@ function AppContent() {
                             <Route path="/playgrounds" element={<PlaygroundsPage />} />
                             <Route path="/playground/:playgroundName/dashboard" element={<DashboardPage />} />
                             <Route path="/playground/:playgroundName/flows" element={<FlowsPage />} />
-                            <Route path="/playground/:playgroundName/all-records" element={<AllRecordsPage />} />
+                            <Route path="/playground/:playgroundName/records" element={<RecordsPage />} />
+                            <Route path="/playground/:playgroundName/batches" element={<BatchesPage />} />
                             <Route path="*" element={<Navigate to="/playgrounds" replace />} />
                         </Routes>
                     </main>

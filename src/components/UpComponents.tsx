@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import type {
     AlertProps,
     ButtonProps,
@@ -107,4 +108,31 @@ type UpListItemDecoratorProps = ListItemDecoratorProps;
 
 export function UpListItemDecorator(props: UpListItemDecoratorProps) {
     return <ListItemDecorator {...props} />;
+}
+
+type UpModalProps = {
+    open: boolean;
+    onClose: () => void;
+    title: string;
+    children: ReactNode;
+    footer?: ReactNode;
+};
+
+export function UpModal({open, onClose, title, children, footer}: UpModalProps) {
+    if (!open) return null;
+
+    return (
+        <div className="up-modal" role="dialog" aria-modal="true" aria-labelledby="up-modal-title" onClick={onClose}>
+            <div className="up-modal-content" role="document" onClick={(e) => e.stopPropagation()}>
+                <div className="up-modal-header">
+                    <h2 id="up-modal-title">{title}</h2>
+                    <button type="button" className="up-modal-close-icon" onClick={onClose} aria-label="Close modal">
+                        <CloseIcon />
+                    </button>
+                </div>
+                <div className="up-modal-body">{children}</div>
+                {footer && <div className="up-modal-footer">{footer}</div>}
+            </div>
+        </div>
+    );
 }

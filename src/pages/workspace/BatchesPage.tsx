@@ -1,13 +1,13 @@
 import {useParams} from "react-router-dom";
 import {DateRangePicker} from "../../components/DateRangePicker";
 
-export function FlowsPage() {
+export function BatchesPage() {
     const {playgroundName} = useParams<{playgroundName: string}>();
 
     return (
         <div className="page">
             <div className="page-subheader">
-                <h1>Flows / {playgroundName}</h1>
+                <h1>Batches / {playgroundName}</h1>
                 <div className="date-range-section">
                     <DateRangePicker />
                 </div>
@@ -16,11 +16,11 @@ export function FlowsPage() {
             <div className="page-content">
                 {playgroundName && (
                     <div>
-                        <div className="flows-content">
-                            <div className="flows-list">
-                                <div className="flow-item">
-                                    <h3>Flow Management</h3>
-                                    <p>Flow configuration and monitoring will be displayed here.</p>
+                        <div className="batches-content">
+                            <div className="batches-list">
+                                <div className="batches-item">
+                                    <h3>Batches</h3>
+                                    <p>Batches will be displayed here.</p>
                                 </div>
                             </div>
                         </div>

@@ -1,13 +1,15 @@
 import {Dashboard as DashboardIcon, Description as DescriptionIcon, Loop as LoopIcon} from "@mui/icons-material";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FolderIcon from "@mui/icons-material/Folder";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import RouteIcon from "@mui/icons-material/Route";
 import {type ReactElement, useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {usePlaygroundContext} from "../contexts/UIStateContext";
 import "../global.scss";
 import {useMockPlaygrounds} from "../hooks/useMockData";
-import type {PlaygroundData} from "../types";
+import type {FolderData, PlaygroundData} from "../types";
 import {UpSkeleton} from "./UpComponents";
 
 type SidebarNavProps = {
@@ -60,11 +62,12 @@ function LoadingSkeleton() {
 const DROPDOWN_OPTIONS: DropdownOption[] = [
     {name: "Dashboard", icon: <DashboardIcon />},
     {name: "Flows", icon: <LoopIcon />},
-    {name: "All Records", icon: <DescriptionIcon />},
+    {name: "Records", icon: <DescriptionIcon />},
+    {name: "Batches", icon: <LibraryBooksIcon />},
 ];
 
 export function SidebarNav({className}: SidebarNavProps) {
-    const {data: playgrounds = [], isLoading: playgroundsLoading} = useMockPlaygrounds();
+    const {data: playgroundData, isLoading: playgroundsLoading} = useMockPlaygrounds();
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["playgrounds"]));
     const navigate = useNavigate();
     const location = useLocation();
@@ -103,7 +106,8 @@ export function SidebarNav({className}: SidebarNavProps) {
         const routeMap: Record<string, string> = {
             Dashboard: "dashboard",
             Flows: "flows",
-            "All Records": "all-records",
+            Records: "records",
+            Batches: "batches",
         };
         const route = routeMap[optionName];
         if (route) {
@@ -116,7 +120,8 @@ export function SidebarNav({className}: SidebarNavProps) {
         const routeMap: Record<string, string> = {
             Dashboard: "dashboard",
             Flows: "flows",
-            "All Records": "all-records",
+            Records: "records",
+            Batches: "batches",
         };
         const route = routeMap[optionName];
         return location.pathname === `/playground/${encodeURIComponent(playgroundName)}/${route}`;
@@ -126,7 +131,48 @@ export function SidebarNav({className}: SidebarNavProps) {
         return location.pathname === "/playgrounds";
     }
 
-    function renderSubItem(playground: PlaygroundData) {
+    function renderFolderItem(folder: FolderData) {
+        const isExpanded = expandedSections.has(folder.name);
+
+        return (
+            <div key={folder.name} className="nav-subitem">
+                <NavButton icon={<FolderIcon />} label={folder.name} hasArrow={true} isExpanded={isExpanded} onClick={() => toggleSection(folder.name)} />
+                {isExpanded && <div className="nav-children">{folder.playgrounds.map((playground) => renderPlaygroundItem(playground))}</div>}
+            </div>
+        );
+    }
+
+    function renderPlaygroundItem(playground: PlaygroundData) {
+        const isExpanded = expandedSections.has(playground.name);
+
+        return (
+            <div key={playground.name} className="nav-subitem depth-1">
+                <NavButton
+                    icon={<BubbleChartIcon />}
+                    label={playground.name}
+                    hasArrow={true}
+                    isExpanded={isExpanded}
+                    onClick={() => toggleSection(playground.name)}
+                />
+                {isExpanded && (
+                    <div className="nav-children">
+                        {DROPDOWN_OPTIONS.map((option) => (
+                            <div key={option.name} className="nav-subitem">
+                                <NavButton
+                                    icon={option.icon}
+                                    label={option.name}
+                                    isActive={isMenuActive(playground.name, option.name)}
+                                    onClick={() => handleMenuOptionClick(playground.name, option.name)}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    function renderUncategorizedPlaygroundItem(playground: PlaygroundData) {
         const isExpanded = expandedSections.has(playground.name);
 
         return (
@@ -156,6 +202,16 @@ export function SidebarNav({className}: SidebarNavProps) {
         );
     }
 
+    function renderUncategorizedPlaygrounds() {
+        const uncategorizedPlaygrounds = playgroundData?.uncategorized || [];
+
+        if (uncategorizedPlaygrounds.length === 0) {
+            return null;
+        }
+
+        return uncategorizedPlaygrounds.map(renderUncategorizedPlaygroundItem);
+    }
+
     return (
         <nav className={`sidebar-nav ${className || ""}`}>
             <div className="nav-section">
@@ -172,7 +228,16 @@ export function SidebarNav({className}: SidebarNavProps) {
                         />
 
                         {expandedSections.has("playgrounds") && (
-                            <div className="nav-children">{playgroundsLoading ? <LoadingSkeleton /> : playgrounds.map(renderSubItem)}</div>
+                            <div className="nav-children">
+                                {playgroundsLoading ? (
+                                    <LoadingSkeleton />
+                                ) : (
+                                    <>
+                                        {playgroundData?.folders.map(renderFolderItem)}
+                                        {renderUncategorizedPlaygrounds()}
+                                    </>
+                                )}
+                            </div>
                         )}
                     </div>
                 </div>

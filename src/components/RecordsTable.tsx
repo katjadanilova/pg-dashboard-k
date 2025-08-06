@@ -1,5 +1,6 @@
-import {FilterAlt, Refresh} from "@mui/icons-material";
+import {FilterAlt} from "@mui/icons-material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import ClearIcon from "@mui/icons-material/Clear";
 import DownloadIcon from "@mui/icons-material/Download";
 import SearchIcon from "@mui/icons-material/Search";
 import ViewColumnIcon from "@mui/icons-material/ViewColumn";
@@ -30,7 +31,7 @@ import {
     UpMaterialTextField,
     UpMaterialThemeProvider,
     UpMaterialTooltip,
-} from "../UpMaterialComponents";
+} from "./UpMaterialComponents";
 
 type ColumnConfig = {
     field: string;
@@ -209,7 +210,7 @@ function CustomFilterBar({filterValues, onFilterChange, onResetFilters, batchNum
             </div>
             <div className="filters-content">
                 {filters.map(renderFilter)}
-                <UpMaterialButton variant="text" size="small" onClick={onResetFilters} startIcon={<Refresh />}>
+                <UpMaterialButton variant="text" size="small" onClick={onResetFilters} startIcon={<ClearIcon />}>
                     Reset Filter
                 </UpMaterialButton>
             </div>
@@ -223,8 +224,8 @@ export function RecordsTable({
     loading = false,
     onFilterChange,
     onResetFilters,
-    pageSize = 10,
-    pageSizeOptions = [10, 15, 30],
+    pageSize = 100,
+    pageSizeOptions = [100, 200, 500],
 }: RecordsTableProps) {
     const batchNumbers = useMemo(() => Array.from(new Set(data.map((item) => item.batchNo).filter(Boolean))).map((batch) => batch.toString()), [data]);
 
@@ -292,31 +293,29 @@ export function RecordsTable({
                     />
 
                     <div className="records-table-wrapper">
-                        <UpMaterialThemeProvider>
-                            <DataGrid
-                                rowHeight={40}
-                                rows={filteredData}
-                                columns={gridColumns}
-                                loading={loading}
-                                showToolbar
-                                getRowId={(row) => row.referenceNo}
-                                slots={{
-                                    toolbar: CustomToolbar,
-                                }}
-                                slotProps={{
-                                    loadingOverlay: {
-                                        variant: "skeleton",
-                                        noRowsVariant: "skeleton",
-                                    },
-                                }}
-                                initialState={{
-                                    pagination: {
-                                        paginationModel: {page: 0, pageSize},
-                                    },
-                                }}
-                                pageSizeOptions={pageSizeOptions}
-                            />
-                        </UpMaterialThemeProvider>
+                        <DataGrid
+                            rowHeight={40}
+                            rows={filteredData}
+                            columns={gridColumns}
+                            loading={loading}
+                            showToolbar
+                            getRowId={(row) => row.referenceNo}
+                            slots={{
+                                toolbar: CustomToolbar,
+                            }}
+                            slotProps={{
+                                loadingOverlay: {
+                                    variant: "skeleton",
+                                    noRowsVariant: "skeleton",
+                                },
+                            }}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {page: 0, pageSize},
+                                },
+                            }}
+                            pageSizeOptions={pageSizeOptions}
+                        />
                     </div>
                 </div>
             </LocalizationProvider>

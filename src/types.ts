@@ -6,6 +6,7 @@ export type RecordData = {
     comment?: string;
     status: "finished" | "active" | "failed";
     result?: string;
+    json?: string;
 };
 
 export type DashboardData = {
@@ -22,6 +23,12 @@ export type PlaygroundData = {
     prodValue: string | null;
     successRate: string;
     failureRate: string;
+    folder?: string;
+};
+
+export type FolderData = {
+    name: string;
+    playgrounds: PlaygroundData[];
 };
 
 export type APIResponse<T> = {

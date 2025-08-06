@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
-import {mockDashboardData, mockDelay, mockPlaygrounds, mockRecords} from "../api/mockData";
-import type {DashboardData, PlaygroundData, RecordData} from "../types";
+import {mockDashboardData, mockDelay, mockFolders, mockPlaygrounds, mockRecords} from "../api/mockData";
+import type {DashboardData, FolderData, PlaygroundData, RecordData} from "../types";
 
 export function useMockRecords(options?: {playgroundName?: string; batchNo?: string}) {
     return useQuery<RecordData[]>({
@@ -33,11 +33,15 @@ export function useMockDashboard() {
 }
 
 export function useMockPlaygrounds() {
-    return useQuery<PlaygroundData[]>({
+    return useQuery<{folders: FolderData[]; uncategorized: PlaygroundData[]}>({
         queryKey: ["mock-playgrounds"],
         queryFn: async () => {
             await mockDelay();
-            return mockPlaygrounds;
+            const uncategorized = mockPlaygrounds.filter((p) => !p.folder);
+            return {
+                folders: mockFolders,
+                uncategorized,
+            };
         },
         staleTime: 5 * 60 * 1000, // 5 minutes
     });

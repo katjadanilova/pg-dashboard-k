@@ -6,17 +6,6 @@ import {useMockPlaygrounds} from "../../hooks/useMockData";
 import type {PlaygroundData} from "../../types";
 import {formatNumber} from "../../utils";
 
-function PlaygroundChip({type, value, isNull}: {type: "test" | "prod"; value: string; isNull: boolean}) {
-    const chipClass = isNull ? "playground-chip playground-chip-grey" : `playground-chip playground-chip-${type}`;
-
-    return (
-        <div className={chipClass}>
-            <div className={`playground-chip-label-${type}`}>{type === "test" ? "TEST" : "PROD"}</div>
-            <div className="playground-chip-value">{value}</div>
-        </div>
-    );
-}
-
 function PlaygroundStat({type, value}: {type: "success" | "failure"; value: string}) {
     return (
         <div className="playground-stat">
@@ -37,10 +26,6 @@ function PlaygroundCard({playground}: {playground: PlaygroundData}) {
         <button type="button" className="playground-card" onClick={handleCardClick}>
             <div className="playground-card-header">
                 <h2>{playground.name}</h2>
-                <div className="playground-chips">
-                    <PlaygroundChip type="test" value={playground.testValue ?? "NONE"} isNull={playground.testValue === null} />
-                    <PlaygroundChip type="prod" value={playground.prodValue ?? "NONE"} isNull={playground.prodValue === null} />
-                </div>
             </div>
 
             <div className="playground-card-content">
@@ -81,7 +66,7 @@ function LoadingSkeleton() {
 }
 
 export function PlaygroundsPage() {
-    const {data: playgrounds, isLoading, error} = useMockPlaygrounds();
+    const {data: playgroundData, isLoading, error} = useMockPlaygrounds();
 
     if (isLoading) {
         return <LoadingSkeleton />;
@@ -95,9 +80,11 @@ export function PlaygroundsPage() {
         );
     }
 
-    if (!playgrounds) {
+    if (!playgroundData) {
         return <div className="page-content">No playgrounds found</div>;
     }
+
+    const allPlaygrounds = [...playgroundData.folders.flatMap((folder) => folder.playgrounds), ...playgroundData.uncategorized];
 
     return (
         <div className="page">
@@ -110,7 +97,7 @@ export function PlaygroundsPage() {
 
             <div className="page-content">
                 <div className="playgrounds-list">
-                    {playgrounds.map((playground) => (
+                    {allPlaygrounds.map((playground) => (
                         <PlaygroundCard key={playground.name} playground={playground} />
                     ))}
                 </div>
